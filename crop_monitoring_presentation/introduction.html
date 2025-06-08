@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+      .slide-container {
+        width: 1280px;
+        min-height: 720px;
+        background: linear-gradient(to bottom right, #e0ffe0, #c0e0ff);
+        font-family: sans-serif;
+        color: #333;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 40px;
+        box-sizing: border-box;
+      }
+      .title {
+        font-size: 64px;
+        font-weight: bold;
+        color: #28a745; /* Green */
+        text-align: center;
+        margin-bottom: 20px;
+      }
+      .subtitle {
+        font-size: 32px;
+        color: #007bff; /* Blue */
+        text-align: center;
+        margin-bottom: 40px;
+      }
+      .content-box {
+        background-color: rgba(255, 255, 255, 0.9);
+        border-radius: 15px;
+        padding: 30px;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        display: flex;
+        gap: 30px;
+        width: 90%;
+        max-width: 1000px;
+      }
+      .content-item {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+      }
+      .icon {
+        font-size: 60px;
+        color: #28a745;
+        margin-bottom: 15px;
+      }
+      .item-title {
+        font-size: 24px;
+        font-weight: bold;
+        color: #333;
+        margin-bottom: 10px;
+      }
+      .item-text {
+        font-size: 18px;
+        color: #555;
+      }
+      .logo {
+        width: 300px; /* Adjust size as needed */
+        height: auto;
+        margin-bottom: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="slide-container">
+      <img src="/home/ubuntu/upload/1000041276.png" alt="Zr3i 3.0 Logo" class="logo">
+      <h1 class="title">Zr3i 3.0: Crop Monitoring and Management Application</h1>
+      <h2 class="subtitle">Empowering Agriculture with Satellite Intelligence</h2>
+      <div class="content-box">
+        <div class="content-item">
+          <i class="fas fa-satellite icon"></i>
+          <div class="item-title">Sentinel-2 Imagery</div>
+          <div class="item-text">Leveraging high-resolution satellite data for precise insights.</div>
+        </div>
+        <div class="content-item">
+          <i class="fas fa-chart-line icon"></i>
+          <div class="item-title">Remote Sensing Analytics</div>
+          <div class="item-text">Advanced algorithms for vegetation health, soil moisture, and more.</div>
+        </div>
+        <div class="content-item">
+          <i class="fas fa-mobile-alt icon"></i>
+          <div class="item-title">Web & Mobile Platforms</div>
+          <div class="item-text">Accessible anytime, anywhere, on any device.</div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
+

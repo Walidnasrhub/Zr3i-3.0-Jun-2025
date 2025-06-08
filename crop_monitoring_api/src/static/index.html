@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crop Monitoring API</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        h1 {
+            color: #2c8c3c;
+            border-bottom: 2px solid #2c8c3c;
+            padding-bottom: 10px;
+        }
+        h2 {
+            color: #2c8c3c;
+            margin-top: 30px;
+        }
+        code {
+            background-color: #f4f4f4;
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-family: monospace;
+        }
+        pre {
+            background-color: #f4f4f4;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        .endpoint {
+            margin-bottom: 20px;
+            padding: 10px;
+            border-left: 3px solid #2c8c3c;
+            background-color: #f9f9f9;
+        }
+        .method {
+            font-weight: bold;
+            color: #2c8c3c;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Crop Monitoring API</h1>
+        <p>Welcome to the Crop Monitoring and Management API. This API provides endpoints for managing user accounts, field boundaries, and accessing satellite imagery data for agricultural monitoring.</p>
+        
+        <h2>API Documentation</h2>
+        
+        <h3>Authentication</h3>
+        <div class="endpoint">
+            <p><span class="method">POST</span> <code>/api/auth/register</code></p>
+            <p>Register a new user account.</p>
+            <pre>
+{
+  "username": "user123",
+  "email": "user@example.com",
+  "password": "securepassword"
+}</pre>
+        </div>
+        
+        <div class="endpoint">
+            <p><span class="method">POST</span> <code>/api/auth/login</code></p>
+            <p>Login to an existing account.</p>
+            <pre>
+{
+  "username": "user123",
+  "password": "securepassword"
+}</pre>
+        </div>
+        
+        <h3>Field Management</h3>
+        <div class="endpoint">
+            <p><span class="method">GET</span> <code>/api/fields</code></p>
+            <p>Get all fields for the authenticated user.</p>
+        </div>
+        
+        <div class="endpoint">
+            <p><span class="method">POST</span> <code>/api/fields</code></p>
+            <p>Create a new field with GeoJSON boundary.</p>
+            <pre>
+{
+  "name": "North Field",
+  "description": "Corn field north of the farm",
+  "crop_type": "corn",
+  "boundary": {
+    "type": "Feature",
+    "geometry": {
+      "type": "Polygon",
+      "coordinates": [
+        [
+          [13.37, 52.52],
+          [13.38, 52.52],
+          [13.38, 52.53],
+          [13.37, 52.53],
+          [13.37, 52.52]
+        ]
+      ]
+    }
+  }
+}</pre>
+        </div>
+        
+        <h3>Satellite Data</h3>
+        <div class="endpoint">
+            <p><span class="method">GET</span> <code>/api/satellite/fields/{field_id}/satellite-images</code></p>
+            <p>Get all satellite images for a specific field.</p>
+        </div>
+        
+        <div class="endpoint">
+            <p><span class="method">POST</span> <code>/api/satellite/fields/{field_id}/fetch-satellite-data</code></p>
+            <p>Fetch new satellite data for a field.</p>
+            <pre>
+{
+  "start_date": "2023-06-01",
+  "end_date": "2023-06-30",
+  "cloud_cover": 10
+}</pre>
+        </div>
+        
+        <div class="endpoint">
+            <p><span class="method">GET</span> <code>/api/satellite/fields/{field_id}/vegetation-indices</code></p>
+            <p>Get vegetation indices (NDVI or EVI) for a field.</p>
+            <p>Query parameters:</p>
+            <ul>
+                <li><code>start_date</code>: Filter by start date (YYYY-MM-DD)</li>
+                <li><code>end_date</code>: Filter by end date (YYYY-MM-DD)</li>
+                <li><code>index_type</code>: Type of index (ndvi or evi, default: ndvi)</li>
+            </ul>
+        </div>
+        
+        <h2>Health Check</h2>
+        <div class="endpoint">
+            <p><span class="method">GET</span> <code>/api/health</code></p>
+            <p>Check if the API is running.</p>
+        </div>
+    </div>
+</body>
+</html>
+

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+      .slide-container {
+        width: 1280px;
+        min-height: 720px;
+        background: linear-gradient(to bottom right, #e0ffe0, #c0e0ff);
+        font-family: sans-serif;
+        color: #333;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 40px;
+        box-sizing: border-box;
+      }
+      .title {
+        font-size: 48px;
+        font-weight: bold;
+        color: #28a745; /* Green */
+        margin-bottom: 30px;
+      }
+      .content-wrapper {
+        display: flex;
+        gap: 40px;
+        width: 90%;
+        max-width: 1100px;
+        background-color: rgba(255, 255, 255, 0.9);
+        border-radius: 15px;
+        padding: 30px;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+      }
+      .text-content {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+      .feature-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+      .feature-list li {
+        font-size: 20px;
+        color: #555;
+        margin-bottom: 15px;
+        display: flex;
+        align-items: center;
+      }
+      .feature-list li i {
+        margin-right: 15px;
+        color: #007bff;
+        font-size: 28px;
+      }
+      .image-container {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .feature-image {
+        max-width: 100%;
+        height: auto;
+        border-radius: 10px;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="slide-container">
+      <h1 class="title">Mobile Application: Field-Ready Tools</h1>
+      <div class="content-wrapper">
+        <div class="text-content">
+          <ul class="feature-list">
+            <li><i class="fas fa-mobile-alt"></i> Native-like experience for iOS & Android.</li>
+            <li><i class="fas fa-map-marker-alt"></i> GPS-enabled field mapping and drawing (polygon & pivot).</li>
+            <li><i class="fas fa-camera"></i> Integrated camera for Farm-to-Fork traceability.</li>
+            <li><i class="fas fa-wifi"></i> Offline functionality for seamless field operations.</li>
+            <li><i class="fas fa-bell"></i> Real-time push notifications for alerts and updates.</li>
+            <li><i class="fas fa-sync-alt"></i> Automatic data synchronization when online.</li>
+          </ul>
+        </div>
+        <div class="image-container">
+          <img src="/home/ubuntu/upload/1000028804.jpg" alt="Mobile App in Field" class="feature-image">
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
+

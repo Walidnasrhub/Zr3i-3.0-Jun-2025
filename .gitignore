@@ -1,0 +1,39 @@
+# Node modules
+node_modules
+
+# Python virtual environments
+venv
+
+# Build artifacts
+build
+dist
+*.pyc
+*.log
+
+# IDE and OS generated files
+.idea/
+.vscode/
+.DS_Store
+
+# Environment variables
+.env
+
+# Uploaded files (if any)
+upload/
+
+# Specific project directories to ignore
+crop-monitoring-mobile-app/node_modules/
+crop-monitoring-web/node_modules/
+affiliate_program_api/venv/
+
+# Other generated files
+__pycache__/
+*.sqlite3
+*.db
+
+
+
+
+.nvm/
+
+

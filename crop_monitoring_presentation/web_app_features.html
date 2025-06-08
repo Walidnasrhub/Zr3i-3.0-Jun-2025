@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+      .slide-container {
+        width: 1280px;
+        min-height: 720px;
+        background: linear-gradient(to bottom right, #e0ffe0, #c0e0ff);
+        font-family: sans-serif;
+        color: #333;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 40px;
+        box-sizing: border-box;
+      }
+      .title {
+        font-size: 48px;
+        font-weight: bold;
+        color: #28a745; /* Green */
+        margin-bottom: 30px;
+      }
+      .feature-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 25px;
+        width: 90%;
+        max-width: 1100px;
+      }
+      .feature-item {
+        background-color: rgba(255, 255, 255, 0.9);
+        border-radius: 15px;
+        padding: 20px;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+      }
+      .icon {
+        font-size: 50px;
+        color: #007bff;
+        margin-bottom: 15px;
+      }
+      .feature-title {
+        font-size: 22px;
+        font-weight: bold;
+        color: #333;
+        margin-bottom: 10px;
+      }
+      .feature-description {
+        font-size: 16px;
+        color: #555;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="slide-container">
+      <h1 class="title">Web Application: Comprehensive Insights</h1>
+      <div class="feature-grid">
+        <div class="feature-item">
+          <i class="fas fa-map-marked-alt icon"></i>
+          <div class="feature-title">Field Management</div>
+          <div class="feature-description">Define and visualize field boundaries with GeoJSON support.</div>
+        </div>
+        <div class="feature-item">
+          <i class="fas fa-satellite-dish icon"></i>
+          <div class="feature-title">Satellite Imagery & Analytics</div>
+          <div class="feature-description">High-resolution Sentinel-2 imagery, NDVI, NDMI, NDWI analysis.</div>
+        </div>
+        <div class="feature-item">
+          <i class="fas fa-cloud-sun-rain icon"></i>
+          <div class="feature-title">Weather & Environment</div>
+          <div class="feature-description">Real-time weather data, 7-day forecasts, and environmental insights.</div>
+        </div>
+        <div class="feature-item">
+          <i class="fas fa-seedling icon"></i>
+          <div class="feature-title">Crop Health Assessment</div>
+          <div class="feature-description">Monitor crop vitality, stress levels, and growth stages.</div>
+        </div>
+        <div class="feature-item">
+          <i class="fas fa-water icon"></i>
+          <div class="feature-title">Soil & Water Monitoring</div>
+          <div class="feature-description">Track soil moisture, temperature, pH, and water levels.</div>
+        </div>
+        <div class="feature-item">
+          <i class="fas fa-shield-alt icon"></i>
+          <div class="feature-title">Risk Analysis & Insurance</div>
+          <div class="feature-description">Assess risks and explore crop insurance services.</div>
+        </div>
+        <div class="feature-item">
+          <i class="fas fa-truck-moving icon"></i>
+          <div class="feature-title">Farm-to-Fork Traceability</div>
+          <div class="feature-description">Premium feature for transparent product journey with GPS & time stamps.</div>
+        </div>
+        <div class="feature-item">
+          <i class="fas fa-language icon"></i>
+          <div class="feature-title">Dual Language Support</div>
+          <div class="feature-description">Seamlessly switch between English and Egyptian Arabic.</div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
+

@@ -37,3 +37,12 @@ __pycache__/
 .nvm/
 
 
+
+
+# Browser data
+.browser_data_dir/
+
+# Generated documentation
+zr3i_web_app_deployment_guide.md
+
+

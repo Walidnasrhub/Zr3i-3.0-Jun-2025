@@ -5,10 +5,8 @@ import { I18nextProvider } from 'react-i18next';
 import i18n from './lib/i18n';
 import './App.css';
 
-// Layout components
-import Header from './components/layout/Header';
-import Sidebar from './components/layout/Sidebar';
-import Footer from './components/layout/Footer';
+// Import the Layout component from our new layout folder
+import { Layout } from './layout';
 
 // Auth pages
 import LoginPage from './pages/auth/LoginPage';
@@ -35,11 +33,22 @@ import RiskAnalysisPage from './pages/monitoring/RiskAnalysisPage';
 import MonitoringReportsPage from './pages/monitoring/MonitoringReportsPage';
 import MonitoringHistoryPage from './pages/monitoring/MonitoringHistoryPage';
 import IndicatorsPage from './pages/monitoring/IndicatorsPage';
+import ComparativeAnalysisPage from './pages/monitoring/ComparativeAnalysisPage';
 
 // Subscription pages
 import SubscriptionPlansPage from './pages/subscription/SubscriptionPlansPage';
 import MySubscriptionPage from './pages/subscription/MySubscriptionPage';
 import PaymentHistoryPage from './pages/subscription/PaymentHistoryPage';
+
+// Affiliate pages
+import AffiliateRegistrationPage from './pages/AffiliateRegistrationPage';
+import AffiliateDashboardPage from './pages/AffiliateDashboardPage';
+
+// Export pages
+import ExportPage from './pages/ExportPage';
+
+// Dashboard Customization
+import DashboardCustomizationPage from './pages/DashboardCustomizationPage';
 
 // Protected route component
 const ProtectedRoute = ({ children }) => {
@@ -52,7 +61,6 @@ const ProtectedRoute = ({ children }) => {
 
 function App() {
   const [language, setLanguage] = useState(localStorage.getItem('language') || 'en');
-  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   useEffect(() => {
     document.documentElement.dir = language === 'ar' ? 'rtl' : 'ltr';
@@ -60,10 +68,6 @@ function App() {
     localStorage.setItem('language', language);
     i18n.changeLanguage(language);
   }, [language]);
-
-  const toggleSidebar = () => {
-    setSidebarOpen(!sidebarOpen);
-  };
 
   const toggleLanguage = () => {
     setLanguage(language === 'en' ? 'ar' : 'en');
@@ -75,391 +79,199 @@ function App() {
         <Router>
           <div className={`app-container ${language === 'ar' ? 'rtl' : 'ltr'}`}>
             <Routes>
-              {/* Public routes */}
-              <Route path="/login" element={
-                <>
-                  <Header toggleLanguage={toggleLanguage} language={language} />
-                  <div className="main-content">
-                    <LoginPage />
-                  </div>
-                  <Footer language={language} />
-                </>
-              } />
-              <Route path="/register" element={
-                <>
-                  <Header toggleLanguage={toggleLanguage} language={language} />
-                  <div className="main-content">
-                    <RegisterPage />
-                  </div>
-                  <Footer language={language} />
-                </>
-              } />
-              <Route path="/forgot-password" element={
-                <>
-                  <Header toggleLanguage={toggleLanguage} language={language} />
-                  <div className="main-content">
-                    <ForgotPasswordPage />
-                  </div>
-                  <Footer language={language} />
-                </>
-              } />
+              {/* Public routes - without Layout wrapper */}
+              <Route path="/login" element={<LoginPage toggleLanguage={toggleLanguage} language={language} />} />
+              <Route path="/register" element={<RegisterPage toggleLanguage={toggleLanguage} language={language} />} />
+              <Route path="/forgot-password" element={<ForgotPasswordPage toggleLanguage={toggleLanguage} language={language} />} />
 
-              {/* Protected routes */}
+              {/* Protected routes - with Layout wrapper */}
               <Route path="/" element={
                 <ProtectedRoute>
-                  <div className="flex h-screen overflow-hidden">
-                    <Sidebar open={sidebarOpen} language={language} />
-                    <div className="flex flex-col flex-1 overflow-hidden">
-                      <Header 
-                        toggleSidebar={toggleSidebar} 
-                        toggleLanguage={toggleLanguage} 
-                        language={language} 
-                      />
-                      <main className="flex-1 overflow-y-auto p-4 md:p-6">
-                        <DashboardPage />
-                      </main>
-                      <Footer language={language} />
-                    </div>
-                  </div>
+                  <Layout language={language} toggleLanguage={toggleLanguage}>
+                    <DashboardPage />
+                  </Layout>
                 </ProtectedRoute>
               } />
 
               {/* Dashboard */}
               <Route path="/dashboard" element={
                 <ProtectedRoute>
-                  <div className="flex h-screen overflow-hidden">
-                    <Sidebar open={sidebarOpen} language={language} />
-                    <div className="flex flex-col flex-1 overflow-hidden">
-                      <Header 
-                        toggleSidebar={toggleSidebar} 
-                        toggleLanguage={toggleLanguage} 
-                        language={language} 
-                      />
-                      <main className="flex-1 overflow-y-auto p-4 md:p-6">
-                        <DashboardPage />
-                      </main>
-                      <Footer language={language} />
-                    </div>
-                  </div>
+                  <Layout language={language} toggleLanguage={toggleLanguage}>
+                    <DashboardPage />
+                  </Layout>
                 </ProtectedRoute>
               } />
 
               {/* Profile */}
               <Route path="/profile" element={
                 <ProtectedRoute>
-                  <div className="flex h-screen overflow-hidden">
-                    <Sidebar open={sidebarOpen} language={language} />
-                    <div className="flex flex-col flex-1 overflow-hidden">
-                      <Header 
-                        toggleSidebar={toggleSidebar} 
-                        toggleLanguage={toggleLanguage} 
-                        language={language} 
-                      />
-                      <main className="flex-1 overflow-y-auto p-4 md:p-6">
-                        <ProfilePage />
-                      </main>
-                      <Footer language={language} />
-                    </div>
-                  </div>
+                  <Layout language={language} toggleLanguage={toggleLanguage}>
+                    <ProfilePage />
+                  </Layout>
                 </ProtectedRoute>
               } />
 
               {/* Fields */}
               <Route path="/fields" element={
                 <ProtectedRoute>
-                  <div className="flex h-screen overflow-hidden">
-                    <Sidebar open={sidebarOpen} language={language} />
-                    <div className="flex flex-col flex-1 overflow-hidden">
-                      <Header 
-                        toggleSidebar={toggleSidebar} 
-                        toggleLanguage={toggleLanguage} 
-                        language={language} 
-                      />
-                      <main className="flex-1 overflow-y-auto p-4 md:p-6">
-                        <FieldsListPage />
-                      </main>
-                      <Footer language={language} />
-                    </div>
-                  </div>
+                  <Layout language={language} toggleLanguage={toggleLanguage}>
+                    <FieldsListPage />
+                  </Layout>
                 </ProtectedRoute>
               } />
               <Route path="/fields/:id" element={
                 <ProtectedRoute>
-                  <div className="flex h-screen overflow-hidden">
-                    <Sidebar open={sidebarOpen} language={language} />
-                    <div className="flex flex-col flex-1 overflow-hidden">
-                      <Header 
-                        toggleSidebar={toggleSidebar} 
-                        toggleLanguage={toggleLanguage} 
-                        language={language} 
-                      />
-                      <main className="flex-1 overflow-y-auto p-4 md:p-6">
-                        <FieldDetailPage />
-                      </main>
-                      <Footer language={language} />
-                    </div>
-                  </div>
+                  <Layout language={language} toggleLanguage={toggleLanguage}>
+                    <FieldDetailPage />
+                  </Layout>
                 </ProtectedRoute>
               } />
               <Route path="/fields/add" element={
                 <ProtectedRoute>
-                  <div className="flex h-screen overflow-hidden">
-                    <Sidebar open={sidebarOpen} language={language} />
-                    <div className="flex flex-col flex-1 overflow-hidden">
-                      <Header 
-                        toggleSidebar={toggleSidebar} 
-                        toggleLanguage={toggleLanguage} 
-                        language={language} 
-                      />
-                      <main className="flex-1 overflow-y-auto p-4 md:p-6">
-                        <AddFieldPage />
-                      </main>
-                      <Footer language={language} />
-                    </div>
-                  </div>
+                  <Layout language={language} toggleLanguage={toggleLanguage}>
+                    <AddFieldPage />
+                  </Layout>
                 </ProtectedRoute>
               } />
               <Route path="/fields/:id/edit" element={
                 <ProtectedRoute>
-                  <div className="flex h-screen overflow-hidden">
-                    <Sidebar open={sidebarOpen} language={language} />
-                    <div className="flex flex-col flex-1 overflow-hidden">
-                      <Header 
-                        toggleSidebar={toggleSidebar} 
-                        toggleLanguage={toggleLanguage} 
-                        language={language} 
-                      />
-                      <main className="flex-1 overflow-y-auto p-4 md:p-6">
-                        <EditFieldPage />
-                      </main>
-                      <Footer language={language} />
-                    </div>
-                  </div>
+                  <Layout language={language} toggleLanguage={toggleLanguage}>
+                    <EditFieldPage />
+                  </Layout>
                 </ProtectedRoute>
               } />
 
               {/* Monitoring */}
               <Route path="/monitoring" element={
                 <ProtectedRoute>
-                  <div className="flex h-screen overflow-hidden">
-                    <Sidebar open={sidebarOpen} language={language} />
-                    <div className="flex flex-col flex-1 overflow-hidden">
-                      <Header 
-                        toggleSidebar={toggleSidebar} 
-                        toggleLanguage={toggleLanguage} 
-                        language={language} 
-                      />
-                      <main className="flex-1 overflow-y-auto p-4 md:p-6">
-                        <MonitoringOverviewPage />
-                      </main>
-                      <Footer language={language} />
-                    </div>
-                  </div>
+                  <Layout language={language} toggleLanguage={toggleLanguage}>
+                    <MonitoringOverviewPage />
+                  </Layout>
                 </ProtectedRoute>
               } />
               <Route path="/monitoring/satellite" element={
                 <ProtectedRoute>
-                  <div className="flex h-screen overflow-hidden">
-                    <Sidebar open={sidebarOpen} language={language} />
-                    <div className="flex flex-col flex-1 overflow-hidden">
-                      <Header 
-                        toggleSidebar={toggleSidebar} 
-                        toggleLanguage={toggleLanguage} 
-                        language={language} 
-                      />
-                      <main className="flex-1 overflow-y-auto p-4 md:p-6">
-                        <SatelliteImageryPage />
-                      </main>
-                      <Footer language={language} />
-                    </div>
-                  </div>
+                  <Layout language={language} toggleLanguage={toggleLanguage}>
+                    <SatelliteImageryPage />
+                  </Layout>
                 </ProtectedRoute>
               } />
               <Route path="/monitoring/weather" element={
                 <ProtectedRoute>
-                  <div className="flex h-screen overflow-hidden">
-                    <Sidebar open={sidebarOpen} language={language} />
-                    <div className="flex flex-col flex-1 overflow-hidden">
-                      <Header 
-                        toggleSidebar={toggleSidebar} 
-                        toggleLanguage={toggleLanguage} 
-                        language={language} 
-                      />
-                      <main className="flex-1 overflow-y-auto p-4 md:p-6">
-                        <WeatherEnvironmentPage />
-                      </main>
-                      <Footer language={language} />
-                    </div>
-                  </div>
+                  <Layout language={language} toggleLanguage={toggleLanguage}>
+                    <WeatherEnvironmentPage />
+                  </Layout>
                 </ProtectedRoute>
               } />
               <Route path="/monitoring/soil-water" element={
                 <ProtectedRoute>
-                  <div className="flex h-screen overflow-hidden">
-                    <Sidebar open={sidebarOpen} language={language} />
-                    <div className="flex flex-col flex-1 overflow-hidden">
-                      <Header 
-                        toggleSidebar={toggleSidebar} 
-                        toggleLanguage={toggleLanguage} 
-                        language={language} 
-                      />
-                      <main className="flex-1 overflow-y-auto p-4 md:p-6">
-                        <SoilWaterPage />
-                      </main>
-                      <Footer language={language} />
-                    </div>
-                  </div>
+                  <Layout language={language} toggleLanguage={toggleLanguage}>
+                    <SoilWaterPage />
+                  </Layout>
                 </ProtectedRoute>
               } />
               <Route path="/monitoring/crop-health" element={
                 <ProtectedRoute>
-                  <div className="flex h-screen overflow-hidden">
-                    <Sidebar open={sidebarOpen} language={language} />
-                    <div className="flex flex-col flex-1 overflow-hidden">
-                      <Header 
-                        toggleSidebar={toggleSidebar} 
-                        toggleLanguage={toggleLanguage} 
-                        language={language} 
-                      />
-                      <main className="flex-1 overflow-y-auto p-4 md:p-6">
-                        <CropHealthPage />
-                      </main>
-                      <Footer language={language} />
-                    </div>
-                  </div>
+                  <Layout language={language} toggleLanguage={toggleLanguage}>
+                    <CropHealthPage />
+                  </Layout>
                 </ProtectedRoute>
               } />
               <Route path="/monitoring/risk-analysis" element={
                 <ProtectedRoute>
-                  <div className="flex h-screen overflow-hidden">
-                    <Sidebar open={sidebarOpen} language={language} />
-                    <div className="flex flex-col flex-1 overflow-hidden">
-                      <Header 
-                        toggleSidebar={toggleSidebar} 
-                        toggleLanguage={toggleLanguage} 
-                        language={language} 
-                      />
-                      <main className="flex-1 overflow-y-auto p-4 md:p-6">
-                        <RiskAnalysisPage />
-                      </main>
-                      <Footer language={language} />
-                    </div>
-                  </div>
+                  <Layout language={language} toggleLanguage={toggleLanguage}>
+                    <RiskAnalysisPage />
+                  </Layout>
                 </ProtectedRoute>
               } />
               <Route path="/monitoring/reports" element={
                 <ProtectedRoute>
-                  <div className="flex h-screen overflow-hidden">
-                    <Sidebar open={sidebarOpen} language={language} />
-                    <div className="flex flex-col flex-1 overflow-hidden">
-                      <Header 
-                        toggleSidebar={toggleSidebar} 
-                        toggleLanguage={toggleLanguage} 
-                        language={language} 
-                      />
-                      <main className="flex-1 overflow-y-auto p-4 md:p-6">
-                        <MonitoringReportsPage />
-                      </main>
-                      <Footer language={language} />
-                    </div>
-                  </div>
+                  <Layout language={language} toggleLanguage={toggleLanguage}>
+                    <MonitoringReportsPage />
+                  </Layout>
                 </ProtectedRoute>
               } />
               <Route path="/monitoring/history" element={
                 <ProtectedRoute>
-                  <div className="flex h-screen overflow-hidden">
-                    <Sidebar open={sidebarOpen} language={language} />
-                    <div className="flex flex-col flex-1 overflow-hidden">
-                      <Header 
-                        toggleSidebar={toggleSidebar} 
-                        toggleLanguage={toggleLanguage} 
-                        language={language} 
-                      />
-                      <main className="flex-1 overflow-y-auto p-4 md:p-6">
-                        <MonitoringHistoryPage />
-                      </main>
-                      <Footer language={language} />
-                    </div>
-                  </div>
+                  <Layout language={language} toggleLanguage={toggleLanguage}>
+                    <MonitoringHistoryPage />
+                  </Layout>
                 </ProtectedRoute>
               } />
               <Route path="/monitoring/indicators" element={
                 <ProtectedRoute>
-                  <div className="flex h-screen overflow-hidden">
-                    <Sidebar open={sidebarOpen} language={language} />
-                    <div className="flex flex-col flex-1 overflow-hidden">
-                      <Header 
-                        toggleSidebar={toggleSidebar} 
-                        toggleLanguage={toggleLanguage} 
-                        language={language} 
-                      />
-                      <main className="flex-1 overflow-y-auto p-4 md:p-6">
-                        <IndicatorsPage />
-                      </main>
-                      <Footer language={language} />
-                    </div>
-                  </div>
+                  <Layout language={language} toggleLanguage={toggleLanguage}>
+                    <IndicatorsPage />
+                  </Layout>
+                </ProtectedRoute>
+              } />
+              <Route path="/comparative-analysis" element={
+                <ProtectedRoute>
+                  <Layout language={language} toggleLanguage={toggleLanguage}>
+                    <ComparativeAnalysisPage />
+                  </Layout>
                 </ProtectedRoute>
               } />
 
               {/* Subscription */}
               <Route path="/subscription/plans" element={
                 <ProtectedRoute>
-                  <div className="flex h-screen overflow-hidden">
-                    <Sidebar open={sidebarOpen} language={language} />
-                    <div className="flex flex-col flex-1 overflow-hidden">
-                      <Header 
-                        toggleSidebar={toggleSidebar} 
-                        toggleLanguage={toggleLanguage} 
-                        language={language} 
-                      />
-                      <main className="flex-1 overflow-y-auto p-4 md:p-6">
-                        <SubscriptionPlansPage />
-                      </main>
-                      <Footer language={language} />
-                    </div>
-                  </div>
+                  <Layout language={language} toggleLanguage={toggleLanguage}>
+                    <SubscriptionPlansPage />
+                  </Layout>
                 </ProtectedRoute>
               } />
               <Route path="/subscription/my-subscription" element={
                 <ProtectedRoute>
-                  <div className="flex h-screen overflow-hidden">
-                    <Sidebar open={sidebarOpen} language={language} />
-                    <div className="flex flex-col flex-1 overflow-hidden">
-                      <Header 
-                        toggleSidebar={toggleSidebar} 
-                        toggleLanguage={toggleLanguage} 
-                        language={language} 
-                      />
-                      <main className="flex-1 overflow-y-auto p-4 md:p-6">
-                        <MySubscriptionPage />
-                      </main>
-                      <Footer language={language} />
-                    </div>
-                  </div>
+                  <Layout language={language} toggleLanguage={toggleLanguage}>
+                    <MySubscriptionPage />
+                  </Layout>
                 </ProtectedRoute>
               } />
               <Route path="/subscription/payment-history" element={
                 <ProtectedRoute>
-                  <div className="flex h-screen overflow-hidden">
-                    <Sidebar open={sidebarOpen} language={language} />
-                    <div className="flex flex-col flex-1 overflow-hidden">
-                      <Header 
-                        toggleSidebar={toggleSidebar} 
-                        toggleLanguage={toggleLanguage} 
-                        language={language} 
-                      />
-                      <main className="flex-1 overflow-y-auto p-4 md:p-6">
-                        <PaymentHistoryPage />
-                      </main>
-                      <Footer language={language} />
-                    </div>
-                  </div>
+                  <Layout language={language} toggleLanguage={toggleLanguage}>
+                    <PaymentHistoryPage />
+                  </Layout>
                 </ProtectedRoute>
               } />
 
-              {/* Redirect to dashboard if no route matches */}
-              <Route path="*" element={<Navigate to="/dashboard" replace />} />
+              {/* Affiliate Program */}
+              <Route path="/affiliate/register" element={
+                <ProtectedRoute>
+                  <Layout language={language} toggleLanguage={toggleLanguage}>
+                    <AffiliateRegistrationPage />
+                  </Layout>
+                </ProtectedRoute>
+              } />
+              <Route path="/affiliate/dashboard" element={
+                <ProtectedRoute>
+                  <Layout language={language} toggleLanguage={toggleLanguage}>
+                    <AffiliateDashboardPage />
+                  </Layout>
+                </ProtectedRoute>
+              } />
+
+              {/* Export */}
+              <Route path="/export" element={
+                <ProtectedRoute>
+                  <Layout language={language} toggleLanguage={toggleLanguage}>
+                    <ExportPage />
+                  </Layout>
+                </ProtectedRoute>
+              } />
+
+              {/* Dashboard Customization */}
+              <Route path="/dashboard-customization" element={
+                <ProtectedRoute>
+                  <Layout language={language} toggleLanguage={toggleLanguage}>
+                    <DashboardCustomizationPage />
+                  </Layout>
+                </ProtectedRoute>
+              } />
+
+              {/* Fallback route */}
+              <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
           </div>
         </Router>
@@ -469,9 +281,3 @@ function App() {
 }
 
 export default App;
-
-
-
-// This is a test comment to trigger Vercel deployment
-
-

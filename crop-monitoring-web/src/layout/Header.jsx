@@ -1,0 +1,186 @@
+import React, { useState, useEffect } from 'react';
+import { Link, useLocation } from 'react-router-dom';
+import { AppBar, Toolbar, Typography, Button, IconButton, Menu, MenuItem, Avatar, Badge, Box, useMediaQuery, useTheme } from '@mui/material';
+import { Menu as MenuIcon, Notifications, AccountCircle, Settings, ExitToApp } from '@mui/icons-material';
+import { useAuth } from '../hooks/useAuth';
+import './Header.css';
+
+const Header = ({ toggleSidebar }) => {
+  const { user, logout } = useAuth();
+  const location = useLocation();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [notificationAnchorEl, setNotificationAnchorEl] = useState(null);
+  const [notifications, setNotifications] = useState([]);
+  
+  useEffect(() => {
+    // Fetch notifications from API
+    const fetchNotifications = async () => {
+      try {
+        // This would be replaced with an actual API call
+        const mockNotifications = [
+          { id: 1, message: 'Weather alert: Heavy rain expected in North Field', read: false },
+          { id: 2, message: 'Crop health alert: Potential disease detected in East Field', read: false },
+          { id: 3, message: 'System update: New features available', read: true }
+        ];
+        setNotifications(mockNotifications);
+      } catch (error) {
+        console.error('Error fetching notifications:', error);
+      }
+    };
+    
+    fetchNotifications();
+  }, []);
+  
+  const handleProfileMenuOpen = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+  };
+  
+  const handleNotificationMenuOpen = (event) => {
+    setNotificationAnchorEl(event.currentTarget);
+  };
+  
+  const handleNotificationMenuClose = () => {
+    setNotificationAnchorEl(null);
+  };
+  
+  const handleLogout = () => {
+    logout();
+    handleMenuClose();
+  };
+  
+  const unreadNotificationsCount = notifications.filter(notification => !notification.read).length;
+  
+  const getPageTitle = () => {
+    const path = location.pathname;
+    if (path === '/') return 'Dashboard';
+    if (path.includes('/monitoring')) return 'Field Monitoring';
+    if (path.includes('/comparative-analysis')) return 'Comparative Analysis';
+    if (path.includes('/export')) return 'Export Data';
+    if (path.includes('/affiliate')) return 'Affiliate Program';
+    return 'Zr3i Crop Monitoring';
+  };
+  
+  return (
+    <AppBar position="fixed" className="header">
+      <Toolbar>
+        {isMobile && (
+          <IconButton
+            edge="start"
+            color="inherit"
+            aria-label="menu"
+            onClick={toggleSidebar}
+            className="menu-button"
+          >
+            <MenuIcon />
+          </IconButton>
+        )}
+        
+        <Typography variant="h6" component="div" className="title">
+          {getPageTitle()}
+        </Typography>
+        
+        <Box sx={{ flexGrow: 1 }} />
+        
+        <div className="header-actions">
+          <IconButton 
+            color="inherit" 
+            onClick={handleNotificationMenuOpen}
+            aria-label="show notifications"
+          >
+            <Badge badgeContent={unreadNotificationsCount} color="error">
+              <Notifications />
+            </Badge>
+          </IconButton>
+          
+          <IconButton
+            edge="end"
+            aria-label="account of current user"
+            aria-haspopup="true"
+            onClick={handleProfileMenuOpen}
+            color="inherit"
+          >
+            {user?.profileImage ? (
+              <Avatar src={user.profileImage} alt={user.name} className="user-avatar" />
+            ) : (
+              <AccountCircle />
+            )}
+          </IconButton>
+        </div>
+      </Toolbar>
+      
+      <Menu
+        anchorEl={anchorEl}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+        keepMounted
+        transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+        open={Boolean(anchorEl)}
+        onClose={handleMenuClose}
+      >
+        <MenuItem component={Link} to="/profile" onClick={handleMenuClose}>
+          <AccountCircle fontSize="small" style={{ marginRight: 8 }} />
+          Profile
+        </MenuItem>
+        <MenuItem component={Link} to="/settings" onClick={handleMenuClose}>
+          <Settings fontSize="small" style={{ marginRight: 8 }} />
+          Settings
+        </MenuItem>
+        <MenuItem onClick={handleLogout}>
+          <ExitToApp fontSize="small" style={{ marginRight: 8 }} />
+          Logout
+        </MenuItem>
+      </Menu>
+      
+      <Menu
+        anchorEl={notificationAnchorEl}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+        keepMounted
+        transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+        open={Boolean(notificationAnchorEl)}
+        onClose={handleNotificationMenuClose}
+        PaperProps={{
+          style: {
+            maxHeight: 300,
+            width: 320,
+          },
+        }}
+      >
+        {notifications.length > 0 ? (
+          notifications.map((notification) => (
+            <MenuItem 
+              key={notification.id} 
+              onClick={handleNotificationMenuClose}
+              style={{ 
+                backgroundColor: notification.read ? 'inherit' : 'rgba(25, 118, 210, 0.08)',
+                whiteSpace: 'normal'
+              }}
+            >
+              <Typography variant="body2">{notification.message}</Typography>
+            </MenuItem>
+          ))
+        ) : (
+          <MenuItem onClick={handleNotificationMenuClose}>
+            <Typography variant="body2">No notifications</Typography>
+          </MenuItem>
+        )}
+        {notifications.length > 0 && (
+          <MenuItem 
+            component={Link} 
+            to="/notifications" 
+            onClick={handleNotificationMenuClose}
+            style={{ justifyContent: 'center' }}
+          >
+            <Typography variant="body2" color="primary">View All</Typography>
+          </MenuItem>
+        )}
+      </Menu>
+    </AppBar>
+  );
+};
+
+export default Header;

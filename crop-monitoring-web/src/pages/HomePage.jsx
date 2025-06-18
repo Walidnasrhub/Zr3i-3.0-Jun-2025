@@ -171,13 +171,13 @@ const HomePage = () => {
                 </Link>
               </div>
               <div className="feature-card">
-                <h3>Weather Monitoring</h3>
+                <h3>Vegetation Indices</h3>
                 <p>
-                  Real-time weather conditions, forecasts, and environmental data 
-                  tailored to your field locations.
+                  Comprehensive spectral analysis with NDVI, EVI, SAVI, and 15+ other 
+                  vegetation indices for precise crop monitoring.
                 </p>
-                <Link to="/monitoring/weather" className="feature-link">
-                  Check Weather →
+                <Link to="/monitoring/vegetation-indices" className="feature-link">
+                  View Indices →
                 </Link>
               </div>
               <div className="feature-card">

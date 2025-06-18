@@ -160,6 +160,19 @@ const Sidebar = ({ open, toggleSidebar }) => {
             <ListItem 
               button 
               component={Link} 
+              to="/monitoring/vegetation-indices" 
+              className={`nested-list-item ${isActive('/monitoring/vegetation-indices') ? 'active-link' : ''}`}
+              onClick={isMobile ? toggleSidebar : undefined}
+            >
+              <ListItemIcon>
+                <LocalFlorist />
+              </ListItemIcon>
+              <ListItemText primary="Vegetation Indices" />
+            </ListItem>
+            
+            <ListItem 
+              button 
+              component={Link} 
               to="/monitoring/crop-health" 
               className={`nested-list-item ${isActive('/monitoring/crop-health') ? 'active-link' : ''}`}
               onClick={isMobile ? toggleSidebar : undefined}

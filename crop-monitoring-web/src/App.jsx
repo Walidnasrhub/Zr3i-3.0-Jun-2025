@@ -11,6 +11,9 @@ import { Layout } from './layout';
 // Import HomePage
 import HomePage from './pages/HomePage';
 
+// Import VegetationIndicesPage
+import VegetationIndicesPage from './pages/monitoring/VegetationIndicesPage';
+
 // Auth pages
 import LoginPage from './pages/auth/LoginPage';
 import RegisterPage from './pages/auth/RegisterPage';
@@ -89,6 +92,9 @@ function App() {
               
               {/* Public Home Page */}
               <Route path="/home" element={<HomePage />} />
+              
+              {/* Vegetation Indices - can be public for demo */}
+              <Route path="/vegetation-indices" element={<VegetationIndicesPage />} />
 
               {/* Protected routes - with Layout wrapper */}
               <Route path="/" element={
@@ -166,6 +172,13 @@ function App() {
                 <ProtectedRoute>
                   <Layout language={language} toggleLanguage={toggleLanguage}>
                     <WeatherEnvironmentPage />
+                  </Layout>
+                </ProtectedRoute>
+              } />
+              <Route path="/monitoring/vegetation-indices" element={
+                <ProtectedRoute>
+                  <Layout language={language} toggleLanguage={toggleLanguage}>
+                    <VegetationIndicesPage />
                   </Layout>
                 </ProtectedRoute>
               } />

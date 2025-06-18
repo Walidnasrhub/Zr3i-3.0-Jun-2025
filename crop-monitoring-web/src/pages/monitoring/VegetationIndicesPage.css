@@ -1,0 +1,246 @@
+/* Vegetation Indices Page Styles */
+.vegetation-indices-page {
+  padding: 2rem;
+  background-color: #f5f5f5;
+  min-height: 100vh;
+}
+
+.page-header {
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.category-card {
+  margin-bottom: 2rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+}
+
+.category-card .MuiCardContent-root {
+  padding: 2rem;
+}
+
+.index-card {
+  height: 100%;
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  border-radius: 8px;
+}
+
+.index-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+.index-card .MuiCardContent-root {
+  padding: 1.5rem;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.index-card h6 {
+  font-weight: 600;
+  color: #2c3e50;
+  margin-bottom: 0.5rem;
+}
+
+.index-card .MuiTypography-h4 {
+  font-weight: 700;
+  color: #27ae60;
+}
+
+.index-card .MuiAccordion-root {
+  margin-top: auto;
+  box-shadow: none;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+}
+
+.index-card .MuiAccordion-root:before {
+  display: none;
+}
+
+.index-card .MuiAccordionSummary-root {
+  min-height: 40px;
+  padding: 0 12px;
+}
+
+.index-card .MuiAccordionDetails-root {
+  padding: 12px;
+  border-top: 1px solid #e0e0e0;
+}
+
+/* Status Colors */
+.status-excellent {
+  background-color: #4caf50;
+  color: white;
+}
+
+.status-good {
+  background-color: #8bc34a;
+  color: white;
+}
+
+.status-moderate {
+  background-color: #ff9800;
+  color: white;
+}
+
+.status-poor {
+  background-color: #f44336;
+  color: white;
+}
+
+/* Category Icons */
+.category-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  margin-right: 1rem;
+}
+
+/* Trend Indicators */
+.trend-increasing {
+  color: #4caf50;
+}
+
+.trend-decreasing {
+  color: #f44336;
+}
+
+.trend-stable {
+  color: #ff9800;
+}
+
+/* Summary Table */
+.summary-table {
+  margin-top: 2rem;
+}
+
+.summary-table .MuiTableCell-head {
+  background-color: #f8f9fa;
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+.summary-table .MuiTableRow-root:nth-of-type(even) {
+  background-color: #f8f9fa;
+}
+
+.summary-table .MuiTableRow-root:hover {
+  background-color: #e3f2fd;
+}
+
+/* Application Chips */
+.application-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.application-chips .MuiChip-root {
+  font-size: 0.75rem;
+  height: 24px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .vegetation-indices-page {
+    padding: 1rem;
+  }
+  
+  .category-card .MuiCardContent-root {
+    padding: 1rem;
+  }
+  
+  .index-card .MuiCardContent-root {
+    padding: 1rem;
+  }
+  
+  .page-header {
+    margin-bottom: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .vegetation-indices-page {
+    padding: 0.5rem;
+  }
+  
+  .index-card .MuiTypography-h4 {
+    font-size: 1.5rem;
+  }
+  
+  .application-chips {
+    flex-direction: column;
+  }
+  
+  .application-chips .MuiChip-root {
+    align-self: flex-start;
+  }
+}
+
+/* Animation for loading states */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.index-card {
+  animation: fadeIn 0.5s ease-out;
+}
+
+/* Custom scrollbar for accordion details */
+.MuiAccordionDetails-root::-webkit-scrollbar {
+  width: 4px;
+}
+
+.MuiAccordionDetails-root::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 2px;
+}
+
+.MuiAccordionDetails-root::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 2px;
+}
+
+.MuiAccordionDetails-root::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}
+
+/* Enhanced visual hierarchy */
+.category-card h5 {
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+.index-card .MuiTypography-body2 {
+  line-height: 1.5;
+}
+
+.index-card .MuiChip-root {
+  font-weight: 500;
+}
+
+/* Focus states for accessibility */
+.index-card:focus-within {
+  outline: 2px solid #2196f3;
+  outline-offset: 2px;
+}
+
+.MuiAccordionSummary-root:focus {
+  background-color: rgba(33, 150, 243, 0.08);
+}
+

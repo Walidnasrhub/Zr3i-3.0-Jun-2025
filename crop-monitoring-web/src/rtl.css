@@ -1,0 +1,207 @@
+/* Arabic Font Support */
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@300;400;500;600;700&display=swap');
+
+/* RTL Support for Arabic */
+[dir="rtl"] {
+  text-align: right;
+}
+
+.arabic-text {
+  font-family: 'Cairo', 'Noto Sans Arabic', Arial, sans-serif;
+  direction: rtl;
+  text-align: right;
+}
+
+/* Language Toggle Button */
+.language-toggle {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 1300;
+}
+
+[dir="rtl"] .language-toggle {
+  right: auto;
+  left: 20px;
+}
+
+.language-button {
+  background: #2e7d32;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.3s ease;
+}
+
+.language-button:hover {
+  background: #1b5e20;
+}
+
+/* RTL adjustments for Material-UI components */
+[dir="rtl"] .MuiListItemIcon-root {
+  margin-right: 0;
+  margin-left: 16px;
+  min-width: auto;
+}
+
+[dir="rtl"] .MuiListItemText-root {
+  text-align: right;
+}
+
+[dir="rtl"] .MuiAccordionSummary-expandIconWrapper {
+  transform: rotate(-90deg);
+}
+
+[dir="rtl"] .MuiAccordionSummary-expandIconWrapper.Mui-expanded {
+  transform: rotate(0deg);
+}
+
+/* Form adjustments for RTL */
+[dir="rtl"] .MuiFormControl-root {
+  text-align: right;
+}
+
+[dir="rtl"] .MuiInputLabel-root {
+  transform-origin: top right;
+  right: 0;
+  left: auto;
+}
+
+[dir="rtl"] .MuiInputLabel-shrink {
+  transform: translate(0, -9px) scale(0.75);
+}
+
+/* Navigation adjustments */
+[dir="rtl"] .breadcrumb {
+  direction: rtl;
+}
+
+[dir="rtl"] .breadcrumb-separator {
+  transform: rotate(180deg);
+}
+
+/* Card and content adjustments */
+[dir="rtl"] .card-content {
+  text-align: right;
+}
+
+[dir="rtl"] .feature-card {
+  text-align: right;
+}
+
+[dir="rtl"] .feature-link {
+  float: left;
+}
+
+/* Table adjustments */
+[dir="rtl"] .MuiTableCell-root {
+  text-align: right;
+}
+
+[dir="rtl"] .MuiTableCell-head {
+  text-align: right;
+}
+
+/* Responsive adjustments for RTL */
+@media (max-width: 768px) {
+  [dir="rtl"] .MuiAppBar-root {
+    padding-right: 0;
+  }
+  
+  [dir="rtl"] .main-content {
+    margin-right: 0;
+  }
+}
+
+/* Animation adjustments for RTL */
+[dir="rtl"] .slide-in-right {
+  animation: slideInLeft 0.3s ease-out;
+}
+
+[dir="rtl"] .slide-in-left {
+  animation: slideInRight 0.3s ease-out;
+}
+
+@keyframes slideInLeft {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+/* Specific component adjustments */
+[dir="rtl"] .auth-container {
+  direction: rtl;
+}
+
+[dir="rtl"] .auth-form {
+  text-align: right;
+}
+
+[dir="rtl"] .footer-content {
+  text-align: right;
+}
+
+[dir="rtl"] .footer-links {
+  text-align: right;
+}
+
+/* Vegetation indices page RTL support */
+[dir="rtl"] .vegetation-indices-page {
+  direction: rtl;
+}
+
+[dir="rtl"] .index-card {
+  text-align: right;
+}
+
+[dir="rtl"] .category-card {
+  text-align: right;
+}
+
+/* Homepage RTL support */
+[dir="rtl"] .homepage {
+  direction: rtl;
+}
+
+[dir="rtl"] .hero-section {
+  text-align: right;
+}
+
+[dir="rtl"] .features-grid {
+  direction: rtl;
+}
+
+/* Sidebar RTL adjustments */
+[dir="rtl"] .sidebar-header {
+  text-align: right;
+}
+
+[dir="rtl"] .sidebar-nav {
+  direction: rtl;
+}
+
+/* Header RTL adjustments */
+[dir="rtl"] .header-content {
+  direction: rtl;
+}
+
+[dir="rtl"] .header-actions {
+  direction: rtl;
+}
+

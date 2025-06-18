@@ -1,9 +1,10 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import { AuthProvider } from './hooks/useAuth';
-import { I18nextProvider } from 'react-i18next';
-import i18n from './lib/i18n';
-import './App.css';
+import { ToastContainer } from 'react-toastify';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline';
+import { useTranslation } from 'react-i18next';
+import './i18n'; // Import i18n configuration
 
 // Import the Layout component from our new layout folder
 import { Layout } from './layout';
@@ -23,7 +24,7 @@ import ForgotPasswordPage from './pages/auth/ForgotPasswordPage';
 import DashboardPage from './pages/dashboard/DashboardPage';
 import ProfilePage from './pages/dashboard/ProfilePage';
 
-// Field management pages
+// Field pages
 import FieldsListPage from './pages/fields/FieldsListPage';
 import FieldDetailPage from './pages/fields/FieldDetailPage';
 import AddFieldPage from './pages/fields/AddFieldPage';
@@ -46,46 +47,76 @@ import SubscriptionPlansPage from './pages/subscription/SubscriptionPlansPage';
 import MySubscriptionPage from './pages/subscription/MySubscriptionPage';
 import PaymentHistoryPage from './pages/subscription/PaymentHistoryPage';
 
-// Affiliate pages
+// Other pages
 import AffiliateRegistrationPage from './pages/AffiliateRegistrationPage';
 import AffiliateDashboardPage from './pages/AffiliateDashboardPage';
-
-// Export pages
 import ExportPage from './pages/ExportPage';
-
-// Dashboard Customization
 import DashboardCustomizationPage from './pages/DashboardCustomizationPage';
 
-// Protected route component
+// Auth Provider
+import AuthProvider from './hooks/useAuth';
+
+import 'react-toastify/dist/ReactToastify.css';
+import './App.css';
+import './rtl.css';
+
+// Protected Route Component
 const ProtectedRoute = ({ children }) => {
-  const token = localStorage.getItem('token');
-  if (!token) {
+  const isAuthenticated = localStorage.getItem('zr3i_token');
+  
+  if (!isAuthenticated) {
     return <Navigate to="/login" replace />;
   }
+  
   return children;
 };
 
 function App() {
-  const [language, setLanguage] = useState(localStorage.getItem('language') || 'en');
+  const { i18n } = useTranslation();
+  const [language, setLanguage] = useState(i18n.language || 'ar');
 
-  useEffect(() => {
-    document.documentElement.dir = language === 'ar' ? 'rtl' : 'ltr';
-    document.documentElement.lang = language;
-    localStorage.setItem('language', language);
-    i18n.changeLanguage(language);
-  }, [language]);
+  // Create theme with RTL support
+  const theme = createTheme({
+    direction: language === 'ar' ? 'rtl' : 'ltr',
+    typography: {
+      fontFamily: language === 'ar' ? 
+        '"Cairo", "Noto Sans Arabic", "Arial", sans-serif' : 
+        '"Roboto", "Helvetica", "Arial", sans-serif'
+    },
+    palette: {
+      primary: {
+        main: '#2e7d32',
+      },
+      secondary: {
+        main: '#ff9800',
+      },
+    },
+  });
 
   const toggleLanguage = () => {
-    setLanguage(language === 'en' ? 'ar' : 'en');
+    const newLanguage = language === 'en' ? 'ar' : 'en';
+    setLanguage(newLanguage);
+    i18n.changeLanguage(newLanguage);
+    
+    // Update document direction
+    document.dir = newLanguage === 'ar' ? 'rtl' : 'ltr';
+    document.documentElement.lang = newLanguage;
   };
 
+  useEffect(() => {
+    // Set initial direction and language
+    document.dir = language === 'ar' ? 'rtl' : 'ltr';
+    document.documentElement.lang = language;
+  }, [language]);
+
   return (
-    <I18nextProvider i18n={i18n}>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
       <AuthProvider>
         <Router>
-          <div className={`app-container ${language === 'ar' ? 'rtl' : 'ltr'}`}>
+          <div className="App" dir={language === 'ar' ? 'rtl' : 'ltr'}>
             <Routes>
-              {/* Public routes - without Layout wrapper */}
+              {/* Auth routes */}
               <Route path="/login" element={<LoginPage toggleLanguage={toggleLanguage} language={language} />} />
               <Route path="/register" element={<RegisterPage toggleLanguage={toggleLanguage} language={language} />} />
               <Route path="/forgot-password" element={<ForgotPasswordPage toggleLanguage={toggleLanguage} language={language} />} />
@@ -224,10 +255,30 @@ function App() {
                   </Layout>
                 </ProtectedRoute>
               } />
+
+              {/* Comparative Analysis */}
               <Route path="/comparative-analysis" element={
                 <ProtectedRoute>
                   <Layout language={language} toggleLanguage={toggleLanguage}>
                     <ComparativeAnalysisPage />
+                  </Layout>
+                </ProtectedRoute>
+              } />
+
+              {/* Export */}
+              <Route path="/export" element={
+                <ProtectedRoute>
+                  <Layout language={language} toggleLanguage={toggleLanguage}>
+                    <ExportPage />
+                  </Layout>
+                </ProtectedRoute>
+              } />
+
+              {/* Dashboard Customization */}
+              <Route path="/dashboard-customization" element={
+                <ProtectedRoute>
+                  <Layout language={language} toggleLanguage={toggleLanguage}>
+                    <DashboardCustomizationPage />
                   </Layout>
                 </ProtectedRoute>
               } />
@@ -255,7 +306,7 @@ function App() {
                 </ProtectedRoute>
               } />
 
-              {/* Affiliate Program */}
+              {/* Affiliate */}
               <Route path="/affiliate/register" element={
                 <ProtectedRoute>
                   <Layout language={language} toggleLanguage={toggleLanguage}>
@@ -270,43 +321,24 @@ function App() {
                   </Layout>
                 </ProtectedRoute>
               } />
-
-              {/* Export */}
-              <Route path="/export" element={
-                <ProtectedRoute>
-                  <Layout language={language} toggleLanguage={toggleLanguage}>
-                    <ExportPage />
-                  </Layout>
-                </ProtectedRoute>
-              } />
-
-              {/* Dashboard Customization */}
-              <Route path="/dashboard-customization" element={
-                <ProtectedRoute>
-                  <Layout language={language} toggleLanguage={toggleLanguage}>
-                    <DashboardCustomizationPage />
-                  </Layout>
-                </ProtectedRoute>
-              } />
-
-              {/* Fallback route */}
-              <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
+            
+            <ToastContainer
+              position="top-right"
+              autoClose={5000}
+              hideProgressBar={false}
+              newestOnTop={false}
+              closeOnClick
+              rtl={language === 'ar'}
+              pauseOnFocusLoss
+              draggable
+              pauseOnHover
+            />
           </div>
         </Router>
       </AuthProvider>
-    </I18nextProvider>
+    </ThemeProvider>
   );
 }
 
 export default App;
-
-
-// Trigger Vercel deployment
-
-
-
-
-// Trigger Vercel deployment after root directory update
-
-

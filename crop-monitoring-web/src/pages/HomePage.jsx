@@ -1,343 +1,755 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Layout } from '../layout';
+import { useTranslation } from 'react-i18next';
+import { 
+  Container, 
+  Typography, 
+  Button, 
+  Grid, 
+  Card, 
+  CardContent, 
+  Box, 
+  Chip,
+  Avatar,
+  Paper,
+  Divider,
+  IconButton
+} from '@mui/material';
+import {
+  Agriculture,
+  Satellite,
+  WbSunny,
+  LocalFlorist,
+  Assessment,
+  Water,
+  TrendingUp,
+  Facebook,
+  LinkedIn,
+  Twitter,
+  YouTube,
+  Star,
+  CheckCircle,
+  ArrowForward,
+  PlayArrow,
+  Language,
+  Phone,
+  Email,
+  LocationOn
+} from '@mui/icons-material';
 import './HomePage.css';
 
 const HomePage = () => {
+  const { t, i18n } = useTranslation();
+  const isRTL = i18n.language === 'ar';
+
+  const toggleLanguage = () => {
+    const newLanguage = i18n.language === 'en' ? 'ar' : 'en';
+    i18n.changeLanguage(newLanguage);
+    document.dir = newLanguage === 'ar' ? 'rtl' : 'ltr';
+    document.documentElement.lang = newLanguage;
+  };
+
+  const features = [
+    {
+      icon: <Agriculture sx={{ fontSize: 40 }} />,
+      title: t('homepage.fieldManagement'),
+      description: t('homepage.fieldManagementDesc'),
+      features: t('homepage.fieldManagementFeatures'),
+      link: '/fields',
+      linkText: t('homepage.manageFields')
+    },
+    {
+      icon: <Satellite sx={{ fontSize: 40 }} />,
+      title: t('homepage.satelliteImagery'),
+      description: t('homepage.satelliteImageryDesc'),
+      features: t('homepage.satelliteImageryFeatures'),
+      link: '/monitoring/satellite',
+      linkText: t('homepage.viewImagery')
+    },
+    {
+      icon: <LocalFlorist sx={{ fontSize: 40 }} />,
+      title: t('homepage.vegetationIndices'),
+      description: t('homepage.vegetationIndicesDesc'),
+      features: t('homepage.vegetationIndicesFeatures'),
+      link: '/monitoring/vegetation-indices',
+      linkText: t('homepage.viewIndices')
+    },
+    {
+      icon: <WbSunny sx={{ fontSize: 40 }} />,
+      title: t('homepage.weatherMonitoring'),
+      description: t('homepage.weatherMonitoringDesc'),
+      features: t('homepage.weatherMonitoringFeatures'),
+      link: '/monitoring/weather',
+      linkText: t('homepage.checkWeather')
+    },
+    {
+      icon: <Assessment sx={{ fontSize: 40 }} />,
+      title: t('homepage.cropHealthAnalysis'),
+      description: t('homepage.cropHealthAnalysisDesc'),
+      features: t('homepage.cropHealthAnalysisFeatures'),
+      link: '/monitoring/crop-health',
+      linkText: t('homepage.analyzeHealth')
+    },
+    {
+      icon: <Water sx={{ fontSize: 40 }} />,
+      title: t('homepage.soilWaterManagement'),
+      description: t('homepage.soilWaterManagementDesc'),
+      features: t('homepage.soilWaterManagementFeatures'),
+      link: '/monitoring/soil-water',
+      linkText: t('homepage.manageSoilWater')
+    },
+    {
+      icon: <TrendingUp sx={{ fontSize: 40 }} />,
+      title: t('homepage.yieldPrediction'),
+      description: t('homepage.yieldPredictionDesc'),
+      features: t('homepage.yieldPredictionFeatures'),
+      link: '/monitoring/indicators',
+      linkText: t('homepage.predictYield')
+    }
+  ];
+
+  const stats = [
+    { number: t('homepage.stat1Number'), label: t('homepage.stat1Label') },
+    { number: t('homepage.stat2Number'), label: t('homepage.stat2Label') },
+    { number: t('homepage.stat3Number'), label: t('homepage.stat3Label') },
+    { number: t('homepage.stat4Number'), label: t('homepage.stat4Label') }
+  ];
+
+  const benefits = [
+    {
+      title: t('homepage.benefit1Title'),
+      description: t('homepage.benefit1Desc'),
+      icon: <TrendingUp sx={{ fontSize: 48, color: '#4caf50' }} />
+    },
+    {
+      title: t('homepage.benefit2Title'),
+      description: t('homepage.benefit2Desc'),
+      icon: <Assessment sx={{ fontSize: 48, color: '#2196f3' }} />
+    },
+    {
+      title: t('homepage.benefit3Title'),
+      description: t('homepage.benefit3Desc'),
+      icon: <LocalFlorist sx={{ fontSize: 48, color: '#8bc34a' }} />
+    },
+    {
+      title: t('homepage.benefit4Title'),
+      description: t('homepage.benefit4Desc'),
+      icon: <CheckCircle sx={{ fontSize: 48, color: '#ff9800' }} />
+    }
+  ];
+
+  const pricingPlans = [
+    {
+      name: t('homepage.basicPlan'),
+      price: t('homepage.basicPrice'),
+      description: t('homepage.basicDesc'),
+      features: t('homepage.basicFeatures').split('•').filter(f => f.trim()),
+      popular: false
+    },
+    {
+      name: t('homepage.professionalPlan'),
+      price: t('homepage.professionalPrice'),
+      description: t('homepage.professionalDesc'),
+      features: t('homepage.professionalFeatures').split('•').filter(f => f.trim()),
+      popular: true
+    },
+    {
+      name: t('homepage.enterprisePlan'),
+      price: t('homepage.enterprisePrice'),
+      description: t('homepage.enterpriseDesc'),
+      features: t('homepage.enterpriseFeatures').split('•').filter(f => f.trim()),
+      popular: false
+    }
+  ];
+
+  const testimonials = [
+    {
+      text: t('homepage.testimonial1'),
+      author: t('homepage.testimonial1Author'),
+      role: t('homepage.testimonial1Role'),
+      avatar: '/avatars/ahmed.jpg'
+    },
+    {
+      text: t('homepage.testimonial2'),
+      author: t('homepage.testimonial2Author'),
+      role: t('homepage.testimonial2Role'),
+      avatar: '/avatars/sarah.jpg'
+    },
+    {
+      text: t('homepage.testimonial3'),
+      author: t('homepage.testimonial3Author'),
+      role: t('homepage.testimonial3Role'),
+      avatar: '/avatars/maria.jpg'
+    }
+  ];
+
   return (
-    <Layout>
-      <div className="home-page">
-        {/* Hero Section */}
-        <section className="hero-section">
-          <div className="hero-content">
-            <h1 className="hero-title">Welcome to Zr3i</h1>
-            <p className="hero-subtitle">
-              Cutting-edge crop monitoring and management platform powered by Sentinel-2 satellite imagery
-            </p>
-            <p className="hero-description">
-              Empower your agricultural practices with actionable insights derived from satellite data and 
-              environmental monitoring. Make informed decisions, improve crop yields, reduce costs, and 
-              promote sustainable farming practices.
-            </p>
-            <div className="hero-actions">
-              <Link to="/fields" className="btn btn-primary">
-                Manage Your Fields
-              </Link>
-              <Link to="/monitoring" className="btn btn-secondary">
-                View Monitoring
-              </Link>
-            </div>
-            
-            {/* Social Media Registration */}
-            <div className="social-registration">
-              <p className="social-text">Quick Registration with Social Media:</p>
-              <div className="social-buttons">
-                <button className="social-btn facebook-btn">
-                  <i className="fab fa-facebook-f"></i>
-                  Continue with Facebook
-                </button>
-                <button className="social-btn google-btn">
-                  <i className="fab fa-google"></i>
-                  Continue with Google
-                </button>
-                <button className="social-btn linkedin-btn">
-                  <i className="fab fa-linkedin-in"></i>
-                  Continue with LinkedIn
-                </button>
-              </div>
-            </div>
-          </div>
-          <div className="hero-image">
-            <img src="/api/placeholder/600/400" alt="Satellite crop monitoring" />
-          </div>
-        </section>
+    <div className={`homepage ${isRTL ? 'rtl' : 'ltr'}`} dir={isRTL ? 'rtl' : 'ltr'}>
+      {/* Language Toggle */}
+      <Box className="language-toggle">
+        <Button
+          onClick={toggleLanguage}
+          startIcon={<Language />}
+          className="language-button"
+          variant="contained"
+          size="small"
+        >
+          {i18n.language === 'en' ? 'العربية' : 'English'}
+        </Button>
+      </Box>
 
-        {/* Referral Program Section */}
-        <section className="referral-section">
-          <div className="container">
-            <div className="referral-card">
-              <h2 className="referral-title">🎁 Refer Friends & Earn Rewards</h2>
-              <p className="referral-description">
-                Share Zr3i with fellow farmers and earn exclusive benefits! For every successful referral, 
-                both you and your friend receive premium features and discounts.
-              </p>
-              <div className="referral-benefits">
-                <div className="benefit-item">
-                  <span className="benefit-icon">💰</span>
-                  <span>Earn $50 credit for each referral</span>
-                </div>
-                <div className="benefit-item">
-                  <span className="benefit-icon">🎯</span>
-                  <span>Your friend gets 30% off first subscription</span>
-                </div>
-                <div className="benefit-item">
-                  <span className="benefit-icon">🏆</span>
-                  <span>Unlock premium features early</span>
-                </div>
-              </div>
-              <div className="referral-actions">
-                <Link to="/affiliate/register" className="btn btn-primary">
-                  Join Referral Program
-                </Link>
-                <button className="btn btn-outline share-btn">
-                  <i className="fas fa-share-alt"></i>
-                  Share Now
-                </button>
-              </div>
-            </div>
-          </div>
-        </section>
+      {/* Hero Section */}
+      <Box className="hero-section">
+        <Container maxWidth="lg">
+          <Grid container spacing={4} alignItems="center">
+            <Grid item xs={12} md={6}>
+              <Box className="hero-content">
+                <Typography variant="h1" className="hero-title">
+                  {t('homepage.heroTitle')}
+                </Typography>
+                <Typography variant="h5" className="hero-subtitle">
+                  {t('homepage.heroSubtitle')}
+                </Typography>
+                <Typography variant="body1" className="hero-description">
+                  {t('homepage.heroDescription')}
+                </Typography>
+                <Box className="hero-actions">
+                  <Button
+                    component={Link}
+                    to="/register"
+                    variant="contained"
+                    size="large"
+                    className="cta-button primary"
+                    endIcon={<ArrowForward />}
+                  >
+                    {t('homepage.getStarted')}
+                  </Button>
+                  <Button
+                    variant="outlined"
+                    size="large"
+                    className="cta-button secondary"
+                    startIcon={<PlayArrow />}
+                  >
+                    {t('homepage.watchDemo')}
+                  </Button>
+                </Box>
+              </Box>
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <Box className="hero-image">
+                <img 
+                  src="/images/hero-agriculture.jpg" 
+                  alt="Smart Agriculture" 
+                  className="hero-img"
+                />
+              </Box>
+            </Grid>
+          </Grid>
+        </Container>
+      </Box>
 
-        {/* Key Benefits Section */}
-        <section className="benefits-section">
-          <div className="container">
-            <h2 className="section-title">Key Benefits of Zr3i</h2>
-            <div className="benefits-grid">
-              <div className="benefit-card">
-                <div className="benefit-icon">📊</div>
-                <h3>Improved Decision Making</h3>
-                <p>
-                  Gain access to timely and accurate data to make informed decisions about 
-                  irrigation, fertilization, pest control, and harvesting.
-                </p>
-              </div>
-              <div className="benefit-card">
-                <div className="benefit-icon">💧</div>
-                <h3>Optimized Resource Management</h3>
-                <p>
-                  Use insights from satellite imagery and weather data to optimize the use of 
-                  water, fertilizers, and pesticides, leading to cost savings.
-                </p>
-              </div>
-              <div className="benefit-card">
-                <div className="benefit-icon">🌱</div>
-                <h3>Increased Crop Yields</h3>
-                <p>
-                  Monitor crop health and identify potential issues early on, allowing for 
-                  timely interventions to maximize yields.
-                </p>
-              </div>
-              <div className="benefit-card">
-                <div className="benefit-icon">⚠️</div>
-                <h3>Risk Mitigation</h3>
-                <p>
-                  Assess and mitigate risks related to drought, floods, and other 
-                  environmental factors affecting your crops.
-                </p>
-              </div>
-              <div className="benefit-card">
-                <div className="benefit-icon">🤝</div>
-                <h3>Enhanced Collaboration</h3>
-                <p>
-                  Share data and insights with agronomists, consultants, and other 
-                  stakeholders for better coordination.
-                </p>
-              </div>
-              <div className="benefit-card">
-                <div className="benefit-icon">📱</div>
-                <h3>Anytime, Anywhere Access</h3>
-                <p>
-                  Monitor your fields and access critical information from anywhere using 
-                  our mobile application.
-                </p>
-              </div>
-            </div>
-          </div>
-        </section>
+      {/* Stats Section */}
+      <Box className="stats-section">
+        <Container maxWidth="lg">
+          <Typography variant="h3" className="section-title" textAlign="center">
+            {t('homepage.statsTitle')}
+          </Typography>
+          <Grid container spacing={4}>
+            {stats.map((stat, index) => (
+              <Grid item xs={6} md={3} key={index}>
+                <Box className="stat-item" textAlign="center">
+                  <Typography variant="h2" className="stat-number">
+                    {stat.number}
+                  </Typography>
+                  <Typography variant="h6" className="stat-label">
+                    {stat.label}
+                  </Typography>
+                </Box>
+              </Grid>
+            ))}
+          </Grid>
+        </Container>
+      </Box>
 
-        {/* Features Overview Section */}
-        <section className="features-section">
-          <div className="container">
-            <h2 className="section-title">Core Features</h2>
-            <div className="features-grid">
-              <div className="feature-card">
-                <h3>Field Management</h3>
-                <p>
-                  Define, track, and manage all your agricultural fields with precise 
-                  boundary mapping and comprehensive field information.
-                </p>
-                <Link to="/fields" className="feature-link">
-                  Manage Fields →
-                </Link>
-              </div>
-              <div className="feature-card">
-                <h3>Satellite Imagery</h3>
-                <p>
-                  Access high-resolution Sentinel-2 satellite imagery with vegetation 
-                  indices and advanced analysis tools.
-                </p>
-                <Link to="/monitoring/satellite" className="feature-link">
-                  View Imagery →
-                </Link>
-              </div>
-              <div className="feature-card">
-                <h3>Vegetation Indices</h3>
-                <p>
-                  Comprehensive spectral analysis with NDVI, EVI, SAVI, and 15+ other 
-                  vegetation indices for precise crop monitoring.
-                </p>
-                <Link to="/monitoring/vegetation-indices" className="feature-link">
-                  View Indices →
-                </Link>
-              </div>
-              <div className="feature-card">
-                <h3>Crop Health Analysis</h3>
-                <p>
-                  Monitor crop health with advanced algorithms that detect stress, 
-                  disease, and growth patterns.
-                </p>
-                <Link to="/monitoring/crop-health" className="feature-link">
-                  Analyze Health →
-                </Link>
-              </div>
-              <div className="feature-card">
-                <h3>Risk Assessment</h3>
-                <p>
-                  Comprehensive risk analysis for drought, floods, and other 
-                  environmental factors affecting your crops.
-                </p>
-                <Link to="/monitoring/risk-analysis" className="feature-link">
-                  Assess Risks →
-                </Link>
-              </div>
-              <div className="feature-card">
-                <h3>Reports & Analytics</h3>
-                <p>
-                  Generate detailed reports and analytics to track performance 
-                  and make data-driven decisions.
-                </p>
-                <Link to="/monitoring/reports" className="feature-link">
-                  View Reports →
-                </Link>
-              </div>
-            </div>
-          </div>
-        </section>
+      {/* Features Section */}
+      <Box className="features-section">
+        <Container maxWidth="lg">
+          <Box textAlign="center" mb={6}>
+            <Typography variant="h3" className="section-title">
+              {t('homepage.featuresTitle')}
+            </Typography>
+            <Typography variant="h6" className="section-subtitle">
+              {t('homepage.featuresSubtitle')}
+            </Typography>
+          </Box>
+          <Grid container spacing={4}>
+            {features.map((feature, index) => (
+              <Grid item xs={12} md={6} lg={4} key={index}>
+                <Card className="feature-card" elevation={3}>
+                  <CardContent>
+                    <Box className="feature-icon" mb={2}>
+                      {feature.icon}
+                    </Box>
+                    <Typography variant="h5" className="feature-title" gutterBottom>
+                      {feature.title}
+                    </Typography>
+                    <Typography variant="body2" className="feature-description" paragraph>
+                      {feature.description}
+                    </Typography>
+                    <Typography variant="body2" className="feature-list" paragraph>
+                      {feature.features}
+                    </Typography>
+                    <Button
+                      component={Link}
+                      to={feature.link}
+                      className="feature-link"
+                      endIcon={<ArrowForward />}
+                    >
+                      {feature.linkText}
+                    </Button>
+                  </CardContent>
+                </Card>
+              </Grid>
+            ))}
+          </Grid>
+        </Container>
+      </Box>
 
-        {/* Getting Started Section */}
-        <section className="getting-started-section">
-          <div className="container">
-            <h2 className="section-title">Getting Started</h2>
-            <div className="steps-grid">
-              <div className="step-card">
-                <div className="step-number">1</div>
-                <h3>Add Your Fields</h3>
-                <p>
-                  Start by defining your field boundaries using our interactive mapping tools. 
-                  This provides the foundation for all monitoring activities.
-                </p>
-              </div>
-              <div className="step-card">
-                <div className="step-number">2</div>
-                <h3>Configure Monitoring</h3>
-                <p>
-                  Set up monitoring preferences for each field, including crop types, 
-                  planting dates, and alert thresholds.
-                </p>
-              </div>
-              <div className="step-card">
-                <div className="step-number">3</div>
-                <h3>Analyze & Act</h3>
-                <p>
-                  Review satellite imagery, weather data, and health analytics to make 
-                  informed decisions about your crops.
-                </p>
-              </div>
-            </div>
-          </div>
-        </section>
+      {/* Benefits Section */}
+      <Box className="benefits-section">
+        <Container maxWidth="lg">
+          <Box textAlign="center" mb={6}>
+            <Typography variant="h3" className="section-title">
+              {t('homepage.benefitsTitle')}
+            </Typography>
+            <Typography variant="h6" className="section-subtitle">
+              {t('homepage.benefitsSubtitle')}
+            </Typography>
+          </Box>
+          <Grid container spacing={4}>
+            {benefits.map((benefit, index) => (
+              <Grid item xs={12} md={6} key={index}>
+                <Box className="benefit-item">
+                  <Box className="benefit-icon" mb={2}>
+                    {benefit.icon}
+                  </Box>
+                  <Typography variant="h5" className="benefit-title" gutterBottom>
+                    {benefit.title}
+                  </Typography>
+                  <Typography variant="body1" className="benefit-description">
+                    {benefit.description}
+                  </Typography>
+                </Box>
+              </Grid>
+            ))}
+          </Grid>
+        </Container>
+      </Box>
 
-        {/* Social Media & Community Section */}
-        <section className="community-section">
-          <div className="container">
-            <h2 className="section-title">Join Our Community</h2>
-            <p className="community-description">
-              Connect with fellow farmers, get the latest updates, and share your success stories
-            </p>
-            <div className="social-links">
-              <a 
-                href="https://www.facebook.com/Zr3iCropMonitoring" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="social-link facebook"
+      {/* Pricing Section */}
+      <Box className="pricing-section">
+        <Container maxWidth="lg">
+          <Box textAlign="center" mb={6}>
+            <Typography variant="h3" className="section-title">
+              {t('homepage.pricingTitle')}
+            </Typography>
+            <Typography variant="h6" className="section-subtitle">
+              {t('homepage.pricingSubtitle')}
+            </Typography>
+          </Box>
+          <Grid container spacing={4} justifyContent="center">
+            {pricingPlans.map((plan, index) => (
+              <Grid item xs={12} md={4} key={index}>
+                <Card className={`pricing-card ${plan.popular ? 'popular' : ''}`} elevation={plan.popular ? 8 : 3}>
+                  {plan.popular && (
+                    <Chip 
+                      label="Most Popular" 
+                      className="popular-badge"
+                      color="primary"
+                    />
+                  )}
+                  <CardContent>
+                    <Typography variant="h4" className="plan-name" gutterBottom>
+                      {plan.name}
+                    </Typography>
+                    <Typography variant="h3" className="plan-price" gutterBottom>
+                      {plan.price}
+                    </Typography>
+                    <Typography variant="body1" className="plan-description" paragraph>
+                      {plan.description}
+                    </Typography>
+                    <Box className="plan-features">
+                      {plan.features.map((feature, idx) => (
+                        <Box key={idx} className="feature-item">
+                          <CheckCircle className="feature-check" />
+                          <Typography variant="body2">{feature.trim()}</Typography>
+                        </Box>
+                      ))}
+                    </Box>
+                    <Button
+                      variant={plan.popular ? "contained" : "outlined"}
+                      size="large"
+                      fullWidth
+                      className="plan-button"
+                    >
+                      {t('homepage.getStarted')}
+                    </Button>
+                  </CardContent>
+                </Card>
+              </Grid>
+            ))}
+          </Grid>
+        </Container>
+      </Box>
+
+      {/* Social Media Registration Section */}
+      <Box className="social-registration-section">
+        <Container maxWidth="md">
+          <Paper className="social-registration-card" elevation={4}>
+            <Typography variant="h4" className="section-title" textAlign="center" gutterBottom>
+              {t('homepage.socialMediaRegistration')}
+            </Typography>
+            <Typography variant="body1" className="section-subtitle" textAlign="center" paragraph>
+              {t('homepage.socialMediaRegistrationDesc')}
+            </Typography>
+            <Grid container spacing={2} justifyContent="center">
+              <Grid item xs={12} sm={4}>
+                <Button
+                  variant="contained"
+                  fullWidth
+                  className="social-button facebook"
+                  startIcon={<Facebook />}
+                >
+                  {t('homepage.registerWithFacebook')}
+                </Button>
+              </Grid>
+              <Grid item xs={12} sm={4}>
+                <Button
+                  variant="contained"
+                  fullWidth
+                  className="social-button google"
+                >
+                  {t('homepage.registerWithGoogle')}
+                </Button>
+              </Grid>
+              <Grid item xs={12} sm={4}>
+                <Button
+                  variant="contained"
+                  fullWidth
+                  className="social-button linkedin"
+                  startIcon={<LinkedIn />}
+                >
+                  {t('homepage.registerWithLinkedIn')}
+                </Button>
+              </Grid>
+            </Grid>
+          </Paper>
+        </Container>
+      </Box>
+
+      {/* Referral Program Section */}
+      <Box className="referral-section">
+        <Container maxWidth="lg">
+          <Grid container spacing={4} alignItems="center">
+            <Grid item xs={12} md={6}>
+              <Typography variant="h3" className="section-title" gutterBottom>
+                {t('homepage.referralProgram')}
+              </Typography>
+              <Typography variant="body1" className="section-subtitle" paragraph>
+                {t('homepage.referralProgramDesc')}
+              </Typography>
+              <Grid container spacing={3}>
+                <Grid item xs={6}>
+                  <Box className="referral-benefit">
+                    <Typography variant="h4" className="referral-amount">
+                      {t('homepage.referralReward')}
+                    </Typography>
+                    <Typography variant="body2">
+                      {t('homepage.referralRewardDesc')}
+                    </Typography>
+                  </Box>
+                </Grid>
+                <Grid item xs={6}>
+                  <Box className="referral-benefit">
+                    <Typography variant="h4" className="referral-amount">
+                      {t('homepage.referralDiscount')}
+                    </Typography>
+                    <Typography variant="body2">
+                      {t('homepage.referralDiscountDesc')}
+                    </Typography>
+                  </Box>
+                </Grid>
+              </Grid>
+              <Button
+                variant="contained"
+                size="large"
+                className="referral-button"
+                endIcon={<ArrowForward />}
               >
-                <i className="fab fa-facebook-f"></i>
-                <span>Follow us on Facebook</span>
-                <small>Get daily tips and updates</small>
-              </a>
-              <a 
-                href="https://www.linkedin.com/company/zr3i-crop-monitoring" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="social-link linkedin"
-              >
-                <i className="fab fa-linkedin-in"></i>
-                <span>Connect on LinkedIn</span>
-                <small>Professional agricultural insights</small>
-              </a>
-              <a 
-                href="https://twitter.com/Zr3iMonitoring" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="social-link twitter"
-              >
-                <i className="fab fa-twitter"></i>
-                <span>Follow on Twitter</span>
-                <small>Real-time updates and news</small>
-              </a>
-              <a 
-                href="https://www.youtube.com/c/Zr3iCropMonitoring" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="social-link youtube"
-              >
-                <i className="fab fa-youtube"></i>
-                <span>Subscribe to YouTube</span>
-                <small>Tutorials and case studies</small>
-              </a>
-            </div>
-          </div>
-        </section>
+                {t('homepage.joinReferralProgram')}
+              </Button>
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <Box className="referral-image">
+                <img 
+                  src="/images/referral-program.jpg" 
+                  alt="Referral Program" 
+                  className="referral-img"
+                />
+              </Box>
+            </Grid>
+          </Grid>
+        </Container>
+      </Box>
 
-        {/* Call to Action Section */}
-        <section className="cta-section">
-          <div className="container">
-            <div className="cta-content">
-              <h2>Ready to Transform Your Farming?</h2>
-              <p>
-                Join thousands of farmers who are already using Zr3i to optimize their 
-                agricultural practices and increase their yields.
-              </p>
-              <div className="cta-actions">
-                <Link to="/fields/add" className="btn btn-primary">
-                  Add Your First Field
-                </Link>
-                <Link to="/subscription/plans" className="btn btn-outline">
-                  View Pricing Plans
-                </Link>
-              </div>
-              <div className="cta-social-share">
-                <p>Share Zr3i with your network:</p>
-                <div className="share-buttons">
-                  <button className="share-btn facebook" title="Share on Facebook">
-                    <i className="fab fa-facebook-f"></i>
-                  </button>
-                  <button className="share-btn twitter" title="Share on Twitter">
-                    <i className="fab fa-twitter"></i>
-                  </button>
-                  <button className="share-btn linkedin" title="Share on LinkedIn">
-                    <i className="fab fa-linkedin-in"></i>
-                  </button>
-                  <button className="share-btn whatsapp" title="Share on WhatsApp">
-                    <i className="fab fa-whatsapp"></i>
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-      </div>
-    </Layout>
+      {/* Testimonials Section */}
+      <Box className="testimonials-section">
+        <Container maxWidth="lg">
+          <Box textAlign="center" mb={6}>
+            <Typography variant="h3" className="section-title">
+              {t('homepage.testimonialsTitle')}
+            </Typography>
+            <Typography variant="h6" className="section-subtitle">
+              {t('homepage.testimonialsSubtitle')}
+            </Typography>
+          </Box>
+          <Grid container spacing={4}>
+            {testimonials.map((testimonial, index) => (
+              <Grid item xs={12} md={4} key={index}>
+                <Card className="testimonial-card" elevation={3}>
+                  <CardContent>
+                    <Box className="testimonial-stars" mb={2}>
+                      {[...Array(5)].map((_, i) => (
+                        <Star key={i} className="star-icon" />
+                      ))}
+                    </Box>
+                    <Typography variant="body1" className="testimonial-text" paragraph>
+                      "{testimonial.text}"
+                    </Typography>
+                    <Box className="testimonial-author">
+                      <Avatar 
+                        src={testimonial.avatar} 
+                        alt={testimonial.author}
+                        className="author-avatar"
+                      />
+                      <Box>
+                        <Typography variant="subtitle1" className="author-name">
+                          {testimonial.author}
+                        </Typography>
+                        <Typography variant="body2" className="author-role">
+                          {testimonial.role}
+                        </Typography>
+                      </Box>
+                    </Box>
+                  </CardContent>
+                </Card>
+              </Grid>
+            ))}
+          </Grid>
+        </Container>
+      </Box>
+
+      {/* Social Media Links Section */}
+      <Box className="social-links-section">
+        <Container maxWidth="lg">
+          <Box textAlign="center" mb={4}>
+            <Typography variant="h3" className="section-title">
+              {t('homepage.socialMediaLinks')}
+            </Typography>
+            <Typography variant="h6" className="section-subtitle">
+              {t('homepage.socialMediaLinksDesc')}
+            </Typography>
+          </Box>
+          <Grid container spacing={4}>
+            <Grid item xs={12} sm={6} md={3}>
+              <Card className="social-link-card facebook-card">
+                <CardContent>
+                  <Facebook className="social-icon" />
+                  <Typography variant="h6" gutterBottom>
+                    {t('homepage.facebookCommunity')}
+                  </Typography>
+                  <Typography variant="body2">
+                    {t('homepage.facebookDesc')}
+                  </Typography>
+                  <Button 
+                    href="https://www.facebook.com/share/1FVLaECKp2/"
+                    target="_blank"
+                    className="social-link-button"
+                  >
+                    {t('common.learnMore')}
+                  </Button>
+                </CardContent>
+              </Card>
+            </Grid>
+            <Grid item xs={12} sm={6} md={3}>
+              <Card className="social-link-card linkedin-card">
+                <CardContent>
+                  <LinkedIn className="social-icon" />
+                  <Typography variant="h6" gutterBottom>
+                    {t('homepage.linkedinNetwork')}
+                  </Typography>
+                  <Typography variant="body2">
+                    {t('homepage.linkedinDesc')}
+                  </Typography>
+                  <Button 
+                    href="https://www.linkedin.com/company/zr3icom/"
+                    target="_blank"
+                    className="social-link-button"
+                  >
+                    {t('common.learnMore')}
+                  </Button>
+                </CardContent>
+              </Card>
+            </Grid>
+            <Grid item xs={12} sm={6} md={3}>
+              <Card className="social-link-card twitter-card">
+                <CardContent>
+                  <Twitter className="social-icon" />
+                  <Typography variant="h6" gutterBottom>
+                    {t('homepage.twitterUpdates')}
+                  </Typography>
+                  <Typography variant="body2">
+                    {t('homepage.twitterDesc')}
+                  </Typography>
+                  <Button className="social-link-button">
+                    {t('common.learnMore')}
+                  </Button>
+                </CardContent>
+              </Card>
+            </Grid>
+            <Grid item xs={12} sm={6} md={3}>
+              <Card className="social-link-card youtube-card">
+                <CardContent>
+                  <YouTube className="social-icon" />
+                  <Typography variant="h6" gutterBottom>
+                    {t('homepage.youtubeChannel')}
+                  </Typography>
+                  <Typography variant="body2">
+                    {t('homepage.youtubeDesc')}
+                  </Typography>
+                  <Button className="social-link-button">
+                    {t('common.learnMore')}
+                  </Button>
+                </CardContent>
+              </Card>
+            </Grid>
+          </Grid>
+        </Container>
+      </Box>
+
+      {/* CTA Section */}
+      <Box className="cta-section">
+        <Container maxWidth="md">
+          <Box textAlign="center">
+            <Typography variant="h3" className="cta-title" gutterBottom>
+              {t('homepage.ctaTitle')}
+            </Typography>
+            <Typography variant="h6" className="cta-subtitle" paragraph>
+              {t('homepage.ctaSubtitle')}
+            </Typography>
+            <Typography variant="body1" className="cta-description" paragraph>
+              {t('homepage.ctaDescription')}
+            </Typography>
+            <Box className="cta-actions">
+              <Button
+                component={Link}
+                to="/register"
+                variant="contained"
+                size="large"
+                className="cta-button primary"
+                endIcon={<ArrowForward />}
+              >
+                {t('homepage.startFreeTrial')}
+              </Button>
+              <Button
+                variant="outlined"
+                size="large"
+                className="cta-button secondary"
+              >
+                {t('homepage.scheduleDemo')}
+              </Button>
+            </Box>
+          </Box>
+        </Container>
+      </Box>
+
+      {/* Footer */}
+      <Box className="homepage-footer">
+        <Container maxWidth="lg">
+          <Grid container spacing={4}>
+            <Grid item xs={12} md={4}>
+              <Typography variant="h6" className="footer-title" gutterBottom>
+                {t('homepage.footerAbout')}
+              </Typography>
+              <Typography variant="body2" className="footer-description" paragraph>
+                {t('homepage.footerAboutDesc')}
+              </Typography>
+              <Box className="footer-social">
+                <IconButton href="https://www.facebook.com/share/1FVLaECKp2/" target="_blank">
+                  <Facebook />
+                </IconButton>
+                <IconButton href="https://www.linkedin.com/company/zr3icom/" target="_blank">
+                  <LinkedIn />
+                </IconButton>
+                <IconButton>
+                  <Twitter />
+                </IconButton>
+                <IconButton>
+                  <YouTube />
+                </IconButton>
+              </Box>
+            </Grid>
+            <Grid item xs={12} md={2}>
+              <Typography variant="h6" className="footer-title" gutterBottom>
+                {t('homepage.footerQuickLinks')}
+              </Typography>
+              <Box className="footer-links">
+                <Link to="/features">{t('common.features')}</Link>
+                <Link to="/pricing">{t('common.pricing')}</Link>
+                <Link to="/about">{t('common.about')}</Link>
+                <Link to="/login">{t('auth.login')}</Link>
+              </Box>
+            </Grid>
+            <Grid item xs={12} md={2}>
+              <Typography variant="h6" className="footer-title" gutterBottom>
+                {t('homepage.footerResources')}
+              </Typography>
+              <Box className="footer-links">
+                <Link to="/documentation">Documentation</Link>
+                <Link to="/api">API</Link>
+                <Link to="/tutorials">Tutorials</Link>
+                <Link to="/blog">Blog</Link>
+              </Box>
+            </Grid>
+            <Grid item xs={12} md={4}>
+              <Typography variant="h6" className="footer-title" gutterBottom>
+                {t('homepage.footerContact')}
+              </Typography>
+              <Box className="footer-contact">
+                <Box className="contact-item">
+                  <Email className="contact-icon" />
+                  <Typography variant="body2">{t('homepage.footerEmail')}</Typography>
+                </Box>
+                <Box className="contact-item">
+                  <Phone className="contact-icon" />
+                  <Typography variant="body2">{t('homepage.footerPhone')}</Typography>
+                </Box>
+                <Box className="contact-item">
+                  <LocationOn className="contact-icon" />
+                  <Typography variant="body2">{t('homepage.footerAddress')}</Typography>
+                </Box>
+              </Box>
+            </Grid>
+          </Grid>
+          <Divider className="footer-divider" />
+          <Box className="footer-bottom">
+            <Typography variant="body2" textAlign="center">
+              © 2024 Zr3i. All rights reserved.
+            </Typography>
+          </Box>
+        </Container>
+      </Box>
+    </div>
   );
 };
 

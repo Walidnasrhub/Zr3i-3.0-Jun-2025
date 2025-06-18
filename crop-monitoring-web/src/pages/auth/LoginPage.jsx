@@ -7,9 +7,9 @@ import './AuthPages.css';
 
 // Components
 import { TextField, Button, Checkbox, FormControlLabel, Paper, Typography, Box, Grid, CircularProgress, Accordion, AccordionSummary, AccordionDetails, Card, CardContent } from '@mui/material';
-import { LockOutlined, EmailOutlined, ExpandMore, AccountCircle } from '@mui/icons-material';
+import { LockOutlined, EmailOutlined, ExpandMore, AccountCircle, Language } from '@mui/icons-material';
 
-const LoginPage = () => {
+const LoginPage = ({ toggleLanguage, language }) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { login, getDemoCredentials } = useAuth();
@@ -79,14 +79,14 @@ const LoginPage = () => {
           localStorage.removeItem('rememberedEmail');
         }
         
-        toast.success(`Welcome back, ${result.user.name}!`);
+        toast.success(`${t('common.welcome')}, ${result.user.name}!`);
         navigate('/');
       } else {
         toast.error(result.error);
       }
     } catch (error) {
       console.error('Login error:', error);
-      toast.error('Login failed. Please try again.');
+      toast.error(t('auth.loginError'));
     } finally {
       setIsSubmitting(false);
       setIsLoading(false);
@@ -100,13 +100,13 @@ const LoginPage = () => {
       const result = await login(demoEmail, demoPassword);
       
       if (result.success) {
-        toast.success(`Welcome to Zr3i Demo, ${result.user.name}!`);
+        toast.success(`${t('common.welcome')}, ${result.user.name}!`);
         navigate('/');
       } else {
         toast.error(result.error);
       }
     } catch (error) {
-      toast.error('Demo login failed. Please try again.');
+      toast.error(t('auth.loginError'));
     } finally {
       setIsLoading(false);
     }
@@ -127,16 +127,16 @@ const LoginPage = () => {
   const demoCredentials = getDemoCredentials();
 
   return (
-    <Grid container className="auth-container">
+    <Grid container className="auth-container" dir={language === 'ar' ? 'rtl' : 'ltr'}>
       <Grid item xs={12} sm={8} md={6} lg={4} component={Paper} elevation={6} square className="auth-paper">
         <Box className="auth-form-container">
           <Box className="auth-header">
             <img src="/logo.png" alt="Zr3i Logo" className="auth-logo" />
             <Typography component="h1" variant="h4" className="auth-title">
-              Welcome to Zr3i
+              {language === 'ar' ? 'أهلاً بك في زر3ي' : 'Welcome to Zr3i'}
             </Typography>
             <Typography variant="subtitle1" className="auth-subtitle">
-              Smart Agriculture Platform
+              {language === 'ar' ? 'منصة الزراعة الذكية' : 'Smart Agriculture Platform'}
             </Typography>
           </Box>
           
@@ -147,7 +147,7 @@ const LoginPage = () => {
                 fullWidth
                 id="email"
                 name="email"
-                label="Email Address"
+                label={t('auth.email')}
                 value={formData.email}
                 onChange={handleChange}
                 error={!!errors.email}
@@ -164,7 +164,7 @@ const LoginPage = () => {
                 fullWidth
                 id="password"
                 name="password"
-                label="Password"
+                label={t('auth.password')}
                 type="password"
                 value={formData.password}
                 onChange={handleChange}
@@ -185,7 +185,7 @@ const LoginPage = () => {
                   disabled={isSubmitting}
                 />
               }
-              label="Remember me"
+              label={t('auth.rememberMe')}
               className="remember-me"
             />
             
@@ -197,7 +197,7 @@ const LoginPage = () => {
               disabled={isSubmitting}
               className="submit-button"
             >
-              {isLoading ? <CircularProgress size={24} color="inherit" /> : 'Sign In'}
+              {isLoading ? <CircularProgress size={24} color="inherit" /> : t('auth.loginButton')}
             </Button>
           </Box>
 
@@ -210,12 +210,15 @@ const LoginPage = () => {
                 id="demo-header"
               >
                 <Typography variant="h6" color="primary">
-                  Try Zr3i with Demo Accounts
+                  {language === 'ar' ? 'جرب زر3ي بحسابات تجريبية' : 'Try Zr3i with Demo Accounts'}
                 </Typography>
               </AccordionSummary>
               <AccordionDetails>
                 <Typography variant="body2" sx={{ mb: 2 }}>
-                  Experience our platform with pre-configured demo accounts featuring sample fields and data:
+                  {language === 'ar' ? 
+                    'اختبر منصتنا بحسابات تجريبية مُعدة مسبقاً تحتوي على حقول وبيانات نموذجية:' :
+                    'Experience our platform with pre-configured demo accounts featuring sample fields and data:'
+                  }
                 </Typography>
                 
                 <Grid container spacing={2}>
@@ -231,7 +234,7 @@ const LoginPage = () => {
                                   {demo.name}
                                 </Typography>
                                 <Typography variant="body2" color="text.secondary">
-                                  {demo.role} • {demo.subscription} Plan
+                                  {demo.role} • {demo.subscription} {language === 'ar' ? 'خطة' : 'Plan'}
                                 </Typography>
                                 <Typography variant="caption" color="text.secondary">
                                   {demo.email}
@@ -244,7 +247,7 @@ const LoginPage = () => {
                               onClick={() => handleDemoLogin(demo.email, demo.password)}
                               disabled={isLoading}
                             >
-                              Login as {demo.role}
+                              {language === 'ar' ? `دخول كـ ${demo.role}` : `Login as ${demo.role}`}
                             </Button>
                           </Box>
                         </CardContent>
@@ -255,7 +258,10 @@ const LoginPage = () => {
                 
                 <Box sx={{ mt: 2, p: 2, bgcolor: 'info.light', borderRadius: 1 }}>
                   <Typography variant="body2" color="info.contrastText">
-                    <strong>Note:</strong> Demo accounts include pre-configured fields, satellite data, and monitoring insights to showcase Zr3i's full capabilities.
+                    <strong>{language === 'ar' ? 'ملاحظة:' : 'Note:'}</strong> {language === 'ar' ? 
+                      'الحسابات التجريبية تشمل حقولاً مُعدة مسبقاً وبيانات أقمار صناعية ورؤى مراقبة لعرض جميع إمكانيات زر3ي.' :
+                      'Demo accounts include pre-configured fields, satellite data, and monitoring insights to showcase Zr3i\'s full capabilities.'
+                    }
                   </Typography>
                 </Box>
               </AccordionDetails>
@@ -265,20 +271,28 @@ const LoginPage = () => {
           <Grid container className="auth-links" sx={{ mt: 2 }}>
             <Grid item xs>
               <Link to="/forgot-password" className="auth-link">
-                Forgot your password?
+                {t('auth.forgotPassword')}
               </Link>
             </Grid>
             <Grid item>
               <Link to="/register" className="auth-link">
-                Create Account
+                {t('auth.noAccount')}
               </Link>
             </Grid>
           </Grid>
 
           <Box className="auth-footer" sx={{ mt: 3, textAlign: 'center' }}>
             <Link to="/home" className="home-link">
-              ← Back to Home
+              {t('common.backToHome')}
             </Link>
+            <Button
+              onClick={toggleLanguage}
+              startIcon={<Language />}
+              className="language-button"
+              sx={{ mt: 2 }}
+            >
+              {language === 'en' ? 'العربية' : 'English'}
+            </Button>
           </Box>
         </Box>
       </Grid>

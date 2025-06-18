@@ -81,13 +81,13 @@ const Footer = () => {
             </Typography>
             <ul className="footer-links">
               <li>
-                <Link href="mailto:support@zr3i.com" color="inherit">
-                  support@zr3i.com
+                <Link href="mailto:info@zr3i.com" color="inherit">
+                  info@zr3i.com
                 </Link>
               </li>
               <li>
-                <Link href="tel:+1234567890" color="inherit">
-                  +1 (234) 567-890
+                <Link href="tel:+201006055320" color="inherit">
+                  +2-01006055320
                 </Link>
               </li>
               <li>

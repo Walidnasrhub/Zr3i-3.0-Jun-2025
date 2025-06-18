@@ -1,0 +1,199 @@
+{
+  "auth": {
+    "login": "Sign In",
+    "email": "Email Address",
+    "password": "Password",
+    "rememberMe": "Remember me",
+    "loginButton": "Sign In",
+    "forgotPassword": "Forgot your password?",
+    "noAccount": "Create Account",
+    "loginSuccess": "Login successful!",
+    "loginError": "Login failed. Please try again.",
+    "errors": {
+      "emailRequired": "Email is required.",
+      "emailInvalid": "Please enter a valid email address.",
+      "passwordRequired": "Password is required."
+    }
+  },
+  "common": {
+    "welcome": "Welcome",
+    "backToHome": "← Back to Home",
+    "learnMore": "Learn More",
+    "getStarted": "Get Started",
+    "contact": "Contact",
+    "about": "About",
+    "features": "Features",
+    "pricing": "Pricing",
+    "support": "Support"
+  },
+  "header": {
+    "dashboard": "Smart Dashboard",
+    "satelliteImagery": "Satellite Intelligence",
+    "weatherMonitoring": "Weather Analytics",
+    "cropHealth": "Crop Health AI",
+    "soilWater": "Soil & Water Insights",
+    "riskAnalysis": "Risk Intelligence",
+    "reports": "Analytics Reports",
+    "comparativeAnalysis": "Performance Benchmarking",
+    "export": "Professional Reports",
+    "dashboardCustomization": "Dashboard Customization",
+    "subscriptionPlans": "Premium Plans",
+    "affiliateProgram": "Partner Program",
+    "vegetationIndices": "Vegetation Indices"
+  },
+  "homepage": {
+    "heroTitle": "Revolutionizing Agriculture with AI-Powered Precision",
+    "heroSubtitle": "Transform your farming operations with cutting-edge satellite imagery, artificial intelligence, and real-time data analytics. Make smarter decisions, increase yields, and optimize resources with Zr3i's comprehensive agricultural intelligence platform.",
+    "heroDescription": "Join thousands of farmers worldwide who trust Zr3i to monitor crop health, predict yields, and maximize profitability through precision agriculture technology.",
+    "getStarted": "Start Free Trial",
+    "watchDemo": "Watch Demo",
+    "learnMore": "Explore Features",
+    
+    "statsTitle": "Trusted by Agricultural Leaders Worldwide",
+    "stat1Number": "10,000+",
+    "stat1Label": "Active Farmers",
+    "stat2Number": "2M+",
+    "stat2Label": "Hectares Monitored",
+    "stat3Number": "25%",
+    "stat3Label": "Average Yield Increase",
+    "stat4Number": "30%",
+    "stat4Label": "Water Savings",
+    
+    "featuresTitle": "Comprehensive Agricultural Intelligence Suite",
+    "featuresSubtitle": "Everything you need to optimize your farming operations in one powerful platform",
+    
+    "fieldManagement": "Smart Field Management",
+    "fieldManagementDesc": "Organize and monitor all your agricultural fields from a centralized dashboard. Track field boundaries, crop rotations, planting schedules, and harvest planning with intuitive tools designed for modern farmers.",
+    "fieldManagementFeatures": "• GPS field mapping • Crop rotation planning • Planting schedules • Harvest optimization",
+    
+    "satelliteImagery": "Advanced Satellite Intelligence",
+    "satelliteImageryDesc": "Access high-resolution Sentinel-2 satellite imagery with advanced processing algorithms. Monitor crop development, detect stress patterns, and track seasonal changes with unprecedented clarity and accuracy.",
+    "satelliteImageryFeatures": "• 10m resolution imagery • Multi-spectral analysis • Historical comparisons • Cloud-free composites",
+    
+    "vegetationIndices": "Comprehensive Vegetation Analysis",
+    "vegetationIndicesDesc": "Leverage 18+ vegetation indices including NDVI, EVI, SAVI, and specialized chlorophyll indices. Get precise insights into crop health, biomass estimation, and stress detection with scientific-grade analysis tools.",
+    "vegetationIndicesFeatures": "• NDVI, EVI, SAVI analysis • Chlorophyll monitoring • Water stress detection • Biomass estimation",
+    
+    "weatherMonitoring": "Precision Weather Analytics",
+    "weatherMonitoringDesc": "Real-time weather monitoring with hyperlocal forecasts tailored to your specific field locations. Access temperature, humidity, precipitation, and wind data with agricultural-focused insights and alerts.",
+    "weatherMonitoringFeatures": "• Hyperlocal forecasts • Agricultural alerts • Historical weather data • Climate trend analysis",
+    
+    "cropHealthAnalysis": "AI-Powered Crop Health Monitoring",
+    "cropHealthAnalysisDesc": "Advanced machine learning algorithms analyze satellite data to detect crop stress, disease outbreaks, and nutrient deficiencies before they become visible to the naked eye. Early detection saves crops and maximizes yields.",
+    "cropHealthAnalysisFeatures": "• Early stress detection • Disease identification • Nutrient deficiency alerts • Growth pattern analysis",
+    
+    "riskAssessment": "Predictive Risk Intelligence",
+    "riskAssessmentDesc": "Identify and mitigate potential risks to your crops with our advanced predictive analytics system. Get early warnings for weather threats, pest outbreaks, and market volatility to protect your investment.",
+    "riskAssessmentFeatures": "• Weather risk alerts • Pest outbreak predictions • Market volatility analysis • Insurance optimization",
+    
+    "soilWaterManagement": "Intelligent Soil & Water Optimization",
+    "soilWaterManagementDesc": "Optimize irrigation schedules and nutrient application based on real-time soil moisture data, weather forecasts, and crop growth stages. Reduce water usage while maximizing crop productivity.",
+    "soilWaterManagementFeatures": "• Smart irrigation scheduling • Soil moisture monitoring • Nutrient optimization • Water usage analytics",
+    
+    "yieldPrediction": "Accurate Yield Forecasting",
+    "yieldPredictionDesc": "Predict crop yields with 95% accuracy using our proprietary machine learning models that combine satellite imagery, weather data, soil conditions, and historical performance patterns.",
+    "yieldPredictionFeatures": "• 95% accuracy rate • Seasonal forecasts • Market planning tools • Revenue optimization",
+    
+    "benefitsTitle": "Why Choose Zr3i?",
+    "benefitsSubtitle": "Experience the advantages of precision agriculture technology",
+    
+    "benefit1Title": "Increase Productivity",
+    "benefit1Desc": "Boost crop yields by up to 25% through data-driven decision making and optimized resource allocation.",
+    
+    "benefit2Title": "Reduce Costs",
+    "benefit2Desc": "Cut operational expenses by 20% with precise irrigation, fertilization, and pest management strategies.",
+    
+    "benefit3Title": "Sustainable Farming",
+    "benefit3Desc": "Promote environmental sustainability with reduced water usage, optimized chemical application, and soil health monitoring.",
+    
+    "benefit4Title": "Risk Mitigation",
+    "benefit4Desc": "Minimize crop losses with early warning systems for weather events, diseases, and market fluctuations.",
+    
+    "pricingTitle": "Choose Your Plan",
+    "pricingSubtitle": "Flexible pricing options for farms of all sizes",
+    
+    "basicPlan": "Basic",
+    "basicPrice": "$29/month",
+    "basicDesc": "Perfect for small farms and individual farmers",
+    "basicFeatures": "• Up to 50 hectares • Basic satellite imagery • Weather monitoring • Email support",
+    
+    "professionalPlan": "Professional",
+    "professionalPrice": "$99/month",
+    "professionalDesc": "Ideal for medium-sized agricultural operations",
+    "professionalFeatures": "• Up to 500 hectares • Advanced analytics • Vegetation indices • Priority support • API access",
+    
+    "enterprisePlan": "Enterprise",
+    "enterprisePrice": "Custom",
+    "enterpriseDesc": "Comprehensive solution for large agricultural enterprises",
+    "enterpriseFeatures": "• Unlimited hectares • Custom integrations • Dedicated support • Advanced AI models • White-label options",
+    
+    "socialMediaRegistration": "Quick Social Registration",
+    "socialMediaRegistrationDesc": "Get started instantly with your existing social media accounts. No lengthy forms or verification delays.",
+    "registerWithFacebook": "Continue with Facebook",
+    "registerWithGoogle": "Continue with Google",
+    "registerWithLinkedIn": "Continue with LinkedIn",
+    
+    "referralProgram": "Earn with Our Referral Program",
+    "referralProgramDesc": "Share Zr3i with fellow farmers and earn rewards for every successful referral. Help grow the precision agriculture community while earning credits.",
+    "referralReward": "$50 Credit",
+    "referralDiscount": "30% Discount",
+    "referralRewardDesc": "Earn $50 credit for each farmer you refer who subscribes to any paid plan",
+    "referralDiscountDesc": "Your referred friends get 30% off their first year subscription",
+    "joinReferralProgram": "Join Referral Program",
+    
+    "socialMediaLinks": "Join Our Community",
+    "socialMediaLinksDesc": "Connect with thousands of farmers worldwide. Share experiences, get tips, and stay updated with the latest in precision agriculture.",
+    "facebookCommunity": "Facebook Community",
+    "facebookDesc": "Join 15,000+ farmers sharing insights and success stories",
+    "linkedinNetwork": "LinkedIn Network",
+    "linkedinDesc": "Connect with agricultural professionals and industry experts",
+    "twitterUpdates": "Twitter Updates",
+    "twitterDesc": "Get real-time updates on new features and agricultural news",
+    "youtubeChannel": "YouTube Channel",
+    "youtubeDesc": "Watch tutorials, case studies, and product demonstrations",
+    
+    "testimonialsTitle": "What Our Farmers Say",
+    "testimonialsSubtitle": "Real stories from farmers who transformed their operations with Zr3i",
+    
+    "testimonial1": "Zr3i helped me increase my wheat yield by 30% while reducing water usage by 25%. The satellite imagery and AI insights are game-changers for modern farming.",
+    "testimonial1Author": "Ahmed Hassan",
+    "testimonial1Role": "Wheat Farmer, Egypt",
+    
+    "testimonial2": "The early disease detection feature saved my entire corn crop last season. I caught the blight outbreak 2 weeks before it would have been visible, saving thousands of dollars.",
+    "testimonial2Author": "Sarah Johnson",
+    "testimonial2Role": "Corn Producer, USA",
+    
+    "testimonial3": "As an agronomist managing multiple farms, Zr3i's comprehensive dashboard gives me the insights I need to optimize operations across all locations efficiently.",
+    "testimonial3Author": "Dr. Maria Rodriguez",
+    "testimonial3Role": "Agricultural Consultant, Spain",
+    
+    "ctaTitle": "Ready to Transform Your Farm?",
+    "ctaSubtitle": "Join thousands of farmers already using Zr3i to optimize their agricultural operations",
+    "ctaDescription": "Start your free trial today and experience the power of precision agriculture. No credit card required.",
+    "startFreeTrial": "Start Free Trial",
+    "scheduleDemo": "Schedule Demo",
+    "contactSales": "Contact Sales",
+    
+    "footerAbout": "About Zr3i",
+    "footerAboutDesc": "Zr3i is a leading agricultural technology company dedicated to empowering farmers with AI-powered precision agriculture solutions.",
+    "footerQuickLinks": "Quick Links",
+    "footerResources": "Resources",
+    "footerSupport": "Support",
+    "footerContact": "Contact Information",
+    "footerEmail": "info@zr3i.com",
+    "footerPhone": "+2-01006055320",
+    "footerAddress": "Agricultural Technology Center, Cairo, Egypt",
+    
+    "viewImagery": "View Satellite Data →",
+    "viewIndices": "Analyze Vegetation →",
+    "checkWeather": "Check Weather →",
+    "analyzeHealth": "Monitor Health →",
+    "assessRisks": "Assess Risks →",
+    "manageSoilWater": "Optimize Resources →",
+    "predictYield": "Forecast Yields →",
+    "manageFields": "Manage Fields →",
+    "registerNow": "Register Now",
+    "learnMoreAboutReferral": "Learn More About Referral Program"
+  }
+}
+

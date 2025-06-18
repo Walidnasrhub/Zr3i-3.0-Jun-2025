@@ -1,0 +1,142 @@
+.auth-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #f5f7fa 0%, #e4e8eb 100%);
+  padding: 20px;
+}
+
+.auth-paper {
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.register-paper {
+  max-width: 800px;
+}
+
+.auth-form-container {
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.auth-title {
+  margin-bottom: 24px;
+  color: #2e7d32;
+  font-weight: 600;
+}
+
+.auth-form {
+  width: 100%;
+}
+
+.form-field {
+  margin-bottom: 20px;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.field-icon {
+  margin-right: 12px;
+  color: #757575;
+}
+
+.remember-me {
+  margin-bottom: 16px;
+}
+
+.submit-button {
+  margin: 24px 0 16px;
+  padding: 12px;
+  background-color: #2e7d32;
+}
+
+.submit-button:hover {
+  background-color: #1b5e20;
+}
+
+.auth-links {
+  margin-top: 16px;
+}
+
+.auth-link {
+  color: #2e7d32;
+  text-decoration: none;
+  font-size: 0.875rem;
+}
+
+.auth-link:hover {
+  text-decoration: underline;
+}
+
+.terms-link {
+  color: #2e7d32;
+  margin-left: 4px;
+  text-decoration: none;
+}
+
+.terms-link:hover {
+  text-decoration: underline;
+}
+
+.terms-error {
+  display: block;
+  margin-top: -12px;
+  margin-bottom: 16px;
+}
+
+.register-stepper, .reset-stepper {
+  width: 100%;
+  margin-bottom: 32px;
+}
+
+.stepper-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 24px;
+}
+
+.back-button, .next-button {
+  min-width: 100px;
+}
+
+.step-description {
+  margin-bottom: 24px;
+  color: #616161;
+}
+
+/* RTL Support */
+[dir="rtl"] .field-icon {
+  margin-right: 0;
+  margin-left: 12px;
+}
+
+[dir="rtl"] .terms-link {
+  margin-left: 0;
+  margin-right: 4px;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 600px) {
+  .auth-form-container {
+    padding: 24px;
+  }
+  
+  .register-stepper, .reset-stepper {
+    margin-bottom: 24px;
+  }
+  
+  .stepper-buttons {
+    flex-direction: column-reverse;
+    gap: 12px;
+  }
+  
+  .back-button, .next-button, .submit-button {
+    width: 100%;
+  }
+}

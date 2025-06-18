@@ -8,6 +8,9 @@ import './App.css';
 // Import the Layout component from our new layout folder
 import { Layout } from './layout';
 
+// Import HomePage
+import HomePage from './pages/HomePage';
+
 // Auth pages
 import LoginPage from './pages/auth/LoginPage';
 import RegisterPage from './pages/auth/RegisterPage';
@@ -83,6 +86,9 @@ function App() {
               <Route path="/login" element={<LoginPage toggleLanguage={toggleLanguage} language={language} />} />
               <Route path="/register" element={<RegisterPage toggleLanguage={toggleLanguage} language={language} />} />
               <Route path="/forgot-password" element={<ForgotPasswordPage toggleLanguage={toggleLanguage} language={language} />} />
+              
+              {/* Public Home Page */}
+              <Route path="/home" element={<HomePage />} />
 
               {/* Protected routes - with Layout wrapper */}
               <Route path="/" element={

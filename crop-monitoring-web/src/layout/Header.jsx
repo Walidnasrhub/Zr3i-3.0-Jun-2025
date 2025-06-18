@@ -20,9 +20,11 @@ const Header = ({ toggleSidebar }) => {
       try {
         // This would be replaced with an actual API call
         const mockNotifications = [
-          { id: 1, message: 'Weather alert: Heavy rain expected in North Field', read: false },
-          { id: 2, message: 'Crop health alert: Potential disease detected in East Field', read: false },
-          { id: 3, message: 'System update: New features available', read: true }
+          { id: 1, message: 'Weather Alert: Heavy rainfall expected in North Field - Consider drainage preparations', read: false },
+          { id: 2, message: 'Crop Health Alert: Early disease symptoms detected in East Field - Immediate inspection recommended', read: false },
+          { id: 3, message: 'Satellite Update: New high-resolution imagery available for your fields', read: false },
+          { id: 4, message: 'Irrigation Reminder: Soil moisture levels dropping in South Field', read: true },
+          { id: 5, message: 'System Update: Enhanced AI analytics now available in your dashboard', read: true }
         ];
         setNotifications(mockNotifications);
       } catch (error) {
@@ -58,12 +60,21 @@ const Header = ({ toggleSidebar }) => {
   
   const getPageTitle = () => {
     const path = location.pathname;
-    if (path === '/') return 'Dashboard';
-    if (path.includes('/monitoring')) return 'Field Monitoring';
-    if (path.includes('/comparative-analysis')) return 'Comparative Analysis';
-    if (path.includes('/export')) return 'Export Data';
-    if (path.includes('/affiliate')) return 'Affiliate Program';
-    return 'Zr3i Crop Monitoring';
+    if (path === '/') return 'Zr3i Dashboard - Smart Crop Monitoring';
+    if (path === '/home') return 'Zr3i - Advanced Agricultural Intelligence';
+    if (path.includes('/dashboard')) return 'Farm Dashboard - Real-time Insights';
+    if (path.includes('/fields')) return 'Field Management - Precision Agriculture';
+    if (path.includes('/monitoring/satellite')) return 'Satellite Imagery - Sentinel-2 Analysis';
+    if (path.includes('/monitoring/weather')) return 'Weather Intelligence - Environmental Data';
+    if (path.includes('/monitoring/crop-health')) return 'Crop Health Analytics - AI-Powered Insights';
+    if (path.includes('/monitoring/soil-water')) return 'Soil & Water Monitoring - Smart Irrigation';
+    if (path.includes('/monitoring/risk-analysis')) return 'Risk Assessment - Predictive Analytics';
+    if (path.includes('/monitoring')) return 'Field Monitoring - Comprehensive Analysis';
+    if (path.includes('/comparative-analysis')) return 'Comparative Analysis - Performance Benchmarking';
+    if (path.includes('/export')) return 'Data Export - Professional Reports';
+    if (path.includes('/affiliate')) return 'Partner Program - Grow Together';
+    if (path.includes('/subscription')) return 'Subscription Management - Premium Features';
+    return 'Zr3i - Smart Agriculture Platform';
   };
   
   return (

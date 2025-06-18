@@ -105,14 +105,27 @@ const Sidebar = ({ open, toggleSidebar }) => {
           <ListItemIcon>
             <Dashboard />
           </ListItemIcon>
-          <ListItemText primary="Dashboard" />
+          <ListItemText primary="Smart Dashboard" />
+        </ListItem>
+        
+        <ListItem 
+          button 
+          component={Link} 
+          to="/fields" 
+          className={isActive('/fields') ? 'active-link' : ''}
+          onClick={isMobile ? toggleSidebar : undefined}
+        >
+          <ListItemIcon>
+            <Terrain />
+          </ListItemIcon>
+          <ListItemText primary="Field Management" />
         </ListItem>
         
         <ListItem button onClick={handleMonitoringClick}>
           <ListItemIcon>
-            <Terrain />
+            <Timeline />
           </ListItemIcon>
-          <ListItemText primary="Field Monitoring" />
+          <ListItemText primary="Precision Monitoring" />
           {monitoringOpen ? <ExpandLess /> : <ExpandMore />}
         </ListItem>
         
@@ -128,7 +141,7 @@ const Sidebar = ({ open, toggleSidebar }) => {
               <ListItemIcon>
                 <Timeline />
               </ListItemIcon>
-              <ListItemText primary="Satellite Data" />
+              <ListItemText primary="Satellite Intelligence" />
             </ListItem>
             
             <ListItem 
@@ -141,7 +154,7 @@ const Sidebar = ({ open, toggleSidebar }) => {
               <ListItemIcon>
                 <Opacity />
               </ListItemIcon>
-              <ListItemText primary="Weather" />
+              <ListItemText primary="Weather Analytics" />
             </ListItem>
             
             <ListItem 
@@ -154,7 +167,20 @@ const Sidebar = ({ open, toggleSidebar }) => {
               <ListItemIcon>
                 <LocalFlorist />
               </ListItemIcon>
-              <ListItemText primary="Crop Health" />
+              <ListItemText primary="Crop Health AI" />
+            </ListItem>
+            
+            <ListItem 
+              button 
+              component={Link} 
+              to="/monitoring/soil-water" 
+              className={`nested-list-item ${isActive('/monitoring/soil-water') ? 'active-link' : ''}`}
+              onClick={isMobile ? toggleSidebar : undefined}
+            >
+              <ListItemIcon>
+                <Opacity />
+              </ListItemIcon>
+              <ListItemText primary="Soil & Water Insights" />
             </ListItem>
             
             <ListItem 
@@ -167,7 +193,20 @@ const Sidebar = ({ open, toggleSidebar }) => {
               <ListItemIcon>
                 <Warning />
               </ListItemIcon>
-              <ListItemText primary="Risk Analysis" />
+              <ListItemText primary="Risk Intelligence" />
+            </ListItem>
+            
+            <ListItem 
+              button 
+              component={Link} 
+              to="/monitoring/reports" 
+              className={`nested-list-item ${isActive('/monitoring/reports') ? 'active-link' : ''}`}
+              onClick={isMobile ? toggleSidebar : undefined}
+            >
+              <ListItemIcon>
+                <Timeline />
+              </ListItemIcon>
+              <ListItemText primary="Analytics Reports" />
             </ListItem>
           </List>
         </Collapse>
@@ -182,7 +221,7 @@ const Sidebar = ({ open, toggleSidebar }) => {
           <ListItemIcon>
             <Compare />
           </ListItemIcon>
-          <ListItemText primary="Comparative Analysis" />
+          <ListItemText primary="Performance Benchmarking" />
         </ListItem>
         
         <ListItem 
@@ -195,7 +234,7 @@ const Sidebar = ({ open, toggleSidebar }) => {
           <ListItemIcon>
             <CloudDownload />
           </ListItemIcon>
-          <ListItemText primary="Export Data" />
+          <ListItemText primary="Professional Reports" />
         </ListItem>
         
         <ListItem 
@@ -216,14 +255,27 @@ const Sidebar = ({ open, toggleSidebar }) => {
         <ListItem 
           button 
           component={Link} 
-          to="/affiliate" 
-          className={isActive('/affiliate') ? 'active-link' : ''}
+          to="/subscription/plans" 
+          className={isActive('/subscription/plans') ? 'active-link' : ''}
           onClick={isMobile ? toggleSidebar : undefined}
         >
           <ListItemIcon>
             <MonetizationOn />
           </ListItemIcon>
-          <ListItemText primary="Affiliate Program" />
+          <ListItemText primary="Premium Plans" />
+        </ListItem>
+        
+        <ListItem 
+          button 
+          component={Link} 
+          to="/affiliate/register" 
+          className={isActive('/affiliate/register') ? 'active-link' : ''}
+          onClick={isMobile ? toggleSidebar : undefined}
+        >
+          <ListItemIcon>
+            <MonetizationOn />
+          </ListItemIcon>
+          <ListItemText primary="Partner Program" />
         </ListItem>
         
         <ListItem button onClick={handleSettingsClick}>

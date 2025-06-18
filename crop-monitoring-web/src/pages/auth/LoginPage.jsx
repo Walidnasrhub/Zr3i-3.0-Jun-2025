@@ -1,16 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { useAuth } from '../../hooks/useAuth';
 import { toast } from 'react-toastify';
 import './AuthPages.css';
 
 // Components
-import { TextField, Button, Checkbox, FormControlLabel, Paper, Typography, Box, Grid, CircularProgress } from '@mui/material';
-import { LockOutlined, EmailOutlined } from '@mui/icons-material';
+import { TextField, Button, Checkbox, FormControlLabel, Paper, Typography, Box, Grid, CircularProgress, Accordion, AccordionSummary, AccordionDetails, Card, CardContent } from '@mui/material';
+import { LockOutlined, EmailOutlined, ExpandMore, AccountCircle } from '@mui/icons-material';
 
 const LoginPage = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const { login, getDemoCredentials } = useAuth();
   
   const [formData, setFormData] = useState({
     email: '',
@@ -68,24 +70,44 @@ const LoginPage = () => {
     setIsLoading(true);
     
     try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      const result = await login(formData.email, formData.password);
       
-      // Mock successful login
-      localStorage.setItem('isAuthenticated', 'true');
-      if (formData.rememberMe) {
-        localStorage.setItem('rememberedEmail', formData.email);
+      if (result.success) {
+        if (formData.rememberMe) {
+          localStorage.setItem('rememberedEmail', formData.email);
+        } else {
+          localStorage.removeItem('rememberedEmail');
+        }
+        
+        toast.success(`Welcome back, ${result.user.name}!`);
+        navigate('/');
       } else {
-        localStorage.removeItem('rememberedEmail');
+        toast.error(result.error);
       }
-      
-      toast.success(t('auth.loginSuccess'));
-      navigate('/dashboard');
     } catch (error) {
       console.error('Login error:', error);
-      toast.error(t('auth.loginError'));
+      toast.error('Login failed. Please try again.');
     } finally {
       setIsSubmitting(false);
+      setIsLoading(false);
+    }
+  };
+
+  const handleDemoLogin = async (demoEmail, demoPassword) => {
+    setIsLoading(true);
+    
+    try {
+      const result = await login(demoEmail, demoPassword);
+      
+      if (result.success) {
+        toast.success(`Welcome to Zr3i Demo, ${result.user.name}!`);
+        navigate('/');
+      } else {
+        toast.error(result.error);
+      }
+    } catch (error) {
+      toast.error('Demo login failed. Please try again.');
+    } finally {
       setIsLoading(false);
     }
   };
@@ -102,13 +124,21 @@ const LoginPage = () => {
     }
   }, []);
 
+  const demoCredentials = getDemoCredentials();
+
   return (
     <Grid container className="auth-container">
       <Grid item xs={12} sm={8} md={6} lg={4} component={Paper} elevation={6} square className="auth-paper">
         <Box className="auth-form-container">
-          <Typography component="h1" variant="h5" className="auth-title">
-            {t('auth.login')}
-          </Typography>
+          <Box className="auth-header">
+            <img src="/logo.png" alt="Zr3i Logo" className="auth-logo" />
+            <Typography component="h1" variant="h4" className="auth-title">
+              Welcome to Zr3i
+            </Typography>
+            <Typography variant="subtitle1" className="auth-subtitle">
+              Smart Agriculture Platform
+            </Typography>
+          </Box>
           
           <Box component="form" onSubmit={handleSubmit} className="auth-form">
             <Box className="form-field">
@@ -117,7 +147,7 @@ const LoginPage = () => {
                 fullWidth
                 id="email"
                 name="email"
-                label={t('auth.email')}
+                label="Email Address"
                 value={formData.email}
                 onChange={handleChange}
                 error={!!errors.email}
@@ -134,7 +164,7 @@ const LoginPage = () => {
                 fullWidth
                 id="password"
                 name="password"
-                label={t('auth.password')}
+                label="Password"
                 type="password"
                 value={formData.password}
                 onChange={handleChange}
@@ -155,7 +185,7 @@ const LoginPage = () => {
                   disabled={isSubmitting}
                 />
               }
-              label={t('auth.rememberMe')}
+              label="Remember me"
               className="remember-me"
             />
             
@@ -167,21 +197,88 @@ const LoginPage = () => {
               disabled={isSubmitting}
               className="submit-button"
             >
-              {isLoading ? <CircularProgress size={24} color="inherit" /> : t('auth.loginButton')}
+              {isLoading ? <CircularProgress size={24} color="inherit" /> : 'Sign In'}
             </Button>
-            
-            <Grid container className="auth-links">
-              <Grid item xs>
-                <Link to="/auth/forgot-password" className="auth-link">
-                  {t('auth.forgotPassword')}
-                </Link>
-              </Grid>
-              <Grid item>
-                <Link to="/auth/register" className="auth-link">
-                  {t('auth.noAccount')}
-                </Link>
-              </Grid>
+          </Box>
+
+          {/* Demo Accounts Section */}
+          <Box className="demo-section" sx={{ mt: 3 }}>
+            <Accordion>
+              <AccordionSummary
+                expandIcon={<ExpandMore />}
+                aria-controls="demo-content"
+                id="demo-header"
+              >
+                <Typography variant="h6" color="primary">
+                  Try Zr3i with Demo Accounts
+                </Typography>
+              </AccordionSummary>
+              <AccordionDetails>
+                <Typography variant="body2" sx={{ mb: 2 }}>
+                  Experience our platform with pre-configured demo accounts featuring sample fields and data:
+                </Typography>
+                
+                <Grid container spacing={2}>
+                  {demoCredentials.map((demo, index) => (
+                    <Grid item xs={12} key={index}>
+                      <Card variant="outlined" className="demo-account-card">
+                        <CardContent>
+                          <Box display="flex" alignItems="center" justifyContent="space-between">
+                            <Box display="flex" alignItems="center" gap={1}>
+                              <AccountCircle color="primary" />
+                              <Box>
+                                <Typography variant="subtitle2" fontWeight="bold">
+                                  {demo.name}
+                                </Typography>
+                                <Typography variant="body2" color="text.secondary">
+                                  {demo.role} • {demo.subscription} Plan
+                                </Typography>
+                                <Typography variant="caption" color="text.secondary">
+                                  {demo.email}
+                                </Typography>
+                              </Box>
+                            </Box>
+                            <Button
+                              variant="outlined"
+                              size="small"
+                              onClick={() => handleDemoLogin(demo.email, demo.password)}
+                              disabled={isLoading}
+                            >
+                              Login as {demo.role}
+                            </Button>
+                          </Box>
+                        </CardContent>
+                      </Card>
+                    </Grid>
+                  ))}
+                </Grid>
+                
+                <Box sx={{ mt: 2, p: 2, bgcolor: 'info.light', borderRadius: 1 }}>
+                  <Typography variant="body2" color="info.contrastText">
+                    <strong>Note:</strong> Demo accounts include pre-configured fields, satellite data, and monitoring insights to showcase Zr3i's full capabilities.
+                  </Typography>
+                </Box>
+              </AccordionDetails>
+            </Accordion>
+          </Box>
+          
+          <Grid container className="auth-links" sx={{ mt: 2 }}>
+            <Grid item xs>
+              <Link to="/forgot-password" className="auth-link">
+                Forgot your password?
+              </Link>
             </Grid>
+            <Grid item>
+              <Link to="/register" className="auth-link">
+                Create Account
+              </Link>
+            </Grid>
+          </Grid>
+
+          <Box className="auth-footer" sx={{ mt: 3, textAlign: 'center' }}>
+            <Link to="/home" className="home-link">
+              ← Back to Home
+            </Link>
           </Box>
         </Box>
       </Grid>
@@ -190,3 +287,4 @@ const LoginPage = () => {
 };
 
 export default LoginPage;
+

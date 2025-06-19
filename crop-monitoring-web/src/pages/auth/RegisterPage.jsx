@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
+import { useAuth } from '../../hooks/useAuth';
 import { toast } from 'react-toastify';
 import './AuthPages.css';
 
@@ -8,65 +8,61 @@ import './AuthPages.css';
 import { 
   TextField, 
   Button, 
-  Checkbox, 
-  FormControlLabel, 
   Paper, 
   Typography, 
   Box, 
   Grid, 
   CircularProgress,
+  Alert,
   Stepper,
   Step,
   StepLabel
 } from '@mui/material';
 import { 
-  LockOutlined, 
+  PersonOutlined, 
   EmailOutlined, 
-  PersonOutline, 
-  BusinessOutlined, 
-  PhoneOutlined 
+  LockOutlined, 
+  PhoneOutlined,
+  BusinessOutlined,
+  Language 
 } from '@mui/icons-material';
 
-const RegisterPage = () => {
-  const { t } = useTranslation();
+const RegisterPage = ({ toggleLanguage, language }) => {
   const navigate = useNavigate();
+  const { register } = useAuth();
   
   const [activeStep, setActiveStep] = useState(0);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  
   const [formData, setFormData] = useState({
-    // Personal Information
+    // Personal Info
     firstName: '',
     lastName: '',
     email: '',
     phone: '',
     
-    // Farm Information
-    farmName: '',
-    farmSize: '',
-    cropTypes: '',
-    location: '',
-    
-    // Account Information
+    // Account Info
     password: '',
     confirmPassword: '',
-    agreeTerms: false
+    
+    // Professional Info
+    organization: '',
+    role: '',
+    farmSize: '',
+    cropTypes: ''
   });
   
   const [errors, setErrors] = useState({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [registerError, setRegisterError] = useState('');
 
-  const steps = [
-    t('auth.register.steps.personal'),
-    t('auth.register.steps.farm'),
-    t('auth.register.steps.account')
-  ];
+  const steps = language === 'ar' ? 
+    ['المعلومات الشخصية', 'معلومات الحساب', 'المعلومات المهنية'] :
+    ['Personal Info', 'Account Info', 'Professional Info'];
 
   const handleChange = (e) => {
-    const { name, value, checked } = e.target;
+    const { name, value } = e.target;
     setFormData({
       ...formData,
-      [name]: name === 'agreeTerms' ? checked : value
+      [name]: value
     });
     
     // Clear error when field is edited
@@ -76,59 +72,51 @@ const RegisterPage = () => {
         [name]: ''
       });
     }
+    
+    // Clear register error when user starts typing
+    if (registerError) {
+      setRegisterError('');
+    }
   };
 
   const validateStep = (step) => {
     const newErrors = {};
     
     if (step === 0) {
-      // Validate personal information
+      // Personal Info validation
       if (!formData.firstName) {
-        newErrors.firstName = t('auth.errors.firstNameRequired');
+        newErrors.firstName = language === 'ar' ? 'الاسم الأول مطلوب' : 'First name is required';
       }
-      
       if (!formData.lastName) {
-        newErrors.lastName = t('auth.errors.lastNameRequired');
+        newErrors.lastName = language === 'ar' ? 'اسم العائلة مطلوب' : 'Last name is required';
       }
-      
       if (!formData.email) {
-        newErrors.email = t('auth.errors.emailRequired');
+        newErrors.email = language === 'ar' ? 'البريد الإلكتروني مطلوب' : 'Email is required';
       } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-        newErrors.email = t('auth.errors.emailInvalid');
+        newErrors.email = language === 'ar' ? 'البريد الإلكتروني غير صحيح' : 'Email is invalid';
       }
-      
       if (!formData.phone) {
-        newErrors.phone = t('auth.errors.phoneRequired');
+        newErrors.phone = language === 'ar' ? 'رقم الهاتف مطلوب' : 'Phone number is required';
       }
     } else if (step === 1) {
-      // Validate farm information
-      if (!formData.farmName) {
-        newErrors.farmName = t('auth.errors.farmNameRequired');
+      // Account Info validation
+      if (!formData.password) {
+        newErrors.password = language === 'ar' ? 'كلمة المرور مطلوبة' : 'Password is required';
+      } else if (formData.password.length < 6) {
+        newErrors.password = language === 'ar' ? 'كلمة المرور يجب أن تكون 6 أحرف على الأقل' : 'Password must be at least 6 characters';
       }
-      
-      if (!formData.farmSize) {
-        newErrors.farmSize = t('auth.errors.farmSizeRequired');
-      }
-      
-      if (!formData.location) {
-        newErrors.location = t('auth.errors.locationRequired');
+      if (!formData.confirmPassword) {
+        newErrors.confirmPassword = language === 'ar' ? 'تأكيد كلمة المرور مطلوب' : 'Confirm password is required';
+      } else if (formData.password !== formData.confirmPassword) {
+        newErrors.confirmPassword = language === 'ar' ? 'كلمات المرور غير متطابقة' : 'Passwords do not match';
       }
     } else if (step === 2) {
-      // Validate account information
-      if (!formData.password) {
-        newErrors.password = t('auth.errors.passwordRequired');
-      } else if (formData.password.length < 8) {
-        newErrors.password = t('auth.errors.passwordLength');
+      // Professional Info validation
+      if (!formData.organization) {
+        newErrors.organization = language === 'ar' ? 'اسم المؤسسة مطلوب' : 'Organization is required';
       }
-      
-      if (!formData.confirmPassword) {
-        newErrors.confirmPassword = t('auth.errors.confirmPasswordRequired');
-      } else if (formData.password !== formData.confirmPassword) {
-        newErrors.confirmPassword = t('auth.errors.passwordsNotMatch');
-      }
-      
-      if (!formData.agreeTerms) {
-        newErrors.agreeTerms = t('auth.errors.termsRequired');
+      if (!formData.role) {
+        newErrors.role = language === 'ar' ? 'المسمى الوظيفي مطلوب' : 'Role is required';
       }
     }
     
@@ -149,26 +137,36 @@ const RegisterPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     
-    if (!validateStep(activeStep)) {
+    if (!validateStep(2)) {
       return;
     }
     
     setIsSubmitting(true);
-    setIsLoading(true);
+    setRegisterError('');
     
     try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1500));
+      const result = await register({
+        name: `${formData.firstName} ${formData.lastName}`,
+        email: formData.email,
+        password: formData.password,
+        phone: formData.phone,
+        organization: formData.organization,
+        role: formData.role,
+        farmSize: formData.farmSize,
+        cropTypes: formData.cropTypes
+      });
       
-      // Mock successful registration
-      toast.success(t('auth.registerSuccess'));
-      navigate('/auth/login');
+      if (result.success) {
+        toast.success(language === 'ar' ? 'تم إنشاء الحساب بنجاح!' : 'Account created successfully!');
+        navigate('/login');
+      } else {
+        setRegisterError(result.error || (language === 'ar' ? 'فشل في إنشاء الحساب' : 'Failed to create account'));
+      }
     } catch (error) {
       console.error('Registration error:', error);
-      toast.error(t('auth.registerError'));
+      setRegisterError(language === 'ar' ? 'حدث خطأ أثناء إنشاء الحساب' : 'An error occurred during registration');
     } finally {
       setIsSubmitting(false);
-      setIsLoading(false);
     }
   };
 
@@ -176,159 +174,95 @@ const RegisterPage = () => {
     switch (step) {
       case 0:
         return (
-          <>
-            <Box className="form-field">
-              <PersonOutline className="field-icon" />
-              <TextField
-                fullWidth
-                id="firstName"
-                name="firstName"
-                label={t('auth.firstName')}
-                value={formData.firstName}
-                onChange={handleChange}
-                error={!!errors.firstName}
-                helperText={errors.firstName}
-                disabled={isSubmitting}
-                autoFocus
-              />
-            </Box>
-            
-            <Box className="form-field">
-              <PersonOutline className="field-icon" />
-              <TextField
-                fullWidth
-                id="lastName"
-                name="lastName"
-                label={t('auth.lastName')}
-                value={formData.lastName}
-                onChange={handleChange}
-                error={!!errors.lastName}
-                helperText={errors.lastName}
-                disabled={isSubmitting}
-              />
-            </Box>
-            
-            <Box className="form-field">
-              <EmailOutlined className="field-icon" />
-              <TextField
-                fullWidth
-                id="email"
-                name="email"
-                label={t('auth.email')}
-                value={formData.email}
-                onChange={handleChange}
-                error={!!errors.email}
-                helperText={errors.email}
-                disabled={isSubmitting}
-                autoComplete="email"
-              />
-            </Box>
-            
-            <Box className="form-field">
-              <PhoneOutlined className="field-icon" />
-              <TextField
-                fullWidth
-                id="phone"
-                name="phone"
-                label={t('auth.phone')}
-                value={formData.phone}
-                onChange={handleChange}
-                error={!!errors.phone}
-                helperText={errors.phone}
-                disabled={isSubmitting}
-              />
-            </Box>
-          </>
+          <Box>
+            <Grid container spacing={2}>
+              <Grid item xs={12} sm={6}>
+                <Box className="form-field">
+                  <PersonOutlined className="field-icon" />
+                  <TextField
+                    fullWidth
+                    name="firstName"
+                    label={language === 'ar' ? 'الاسم الأول' : 'First Name'}
+                    value={formData.firstName}
+                    onChange={handleChange}
+                    error={!!errors.firstName}
+                    helperText={errors.firstName}
+                    disabled={isSubmitting}
+                  />
+                </Box>
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <Box className="form-field">
+                  <PersonOutlined className="field-icon" />
+                  <TextField
+                    fullWidth
+                    name="lastName"
+                    label={language === 'ar' ? 'اسم العائلة' : 'Last Name'}
+                    value={formData.lastName}
+                    onChange={handleChange}
+                    error={!!errors.lastName}
+                    helperText={errors.lastName}
+                    disabled={isSubmitting}
+                  />
+                </Box>
+              </Grid>
+              <Grid item xs={12}>
+                <Box className="form-field">
+                  <EmailOutlined className="field-icon" />
+                  <TextField
+                    fullWidth
+                    name="email"
+                    label={language === 'ar' ? 'البريد الإلكتروني' : 'Email'}
+                    type="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    error={!!errors.email}
+                    helperText={errors.email}
+                    disabled={isSubmitting}
+                  />
+                </Box>
+              </Grid>
+              <Grid item xs={12}>
+                <Box className="form-field">
+                  <PhoneOutlined className="field-icon" />
+                  <TextField
+                    fullWidth
+                    name="phone"
+                    label={language === 'ar' ? 'رقم الهاتف' : 'Phone Number'}
+                    value={formData.phone}
+                    onChange={handleChange}
+                    error={!!errors.phone}
+                    helperText={errors.phone}
+                    disabled={isSubmitting}
+                  />
+                </Box>
+              </Grid>
+            </Grid>
+          </Box>
         );
       case 1:
         return (
-          <>
-            <Box className="form-field">
-              <BusinessOutlined className="field-icon" />
-              <TextField
-                fullWidth
-                id="farmName"
-                name="farmName"
-                label={t('auth.farmName')}
-                value={formData.farmName}
-                onChange={handleChange}
-                error={!!errors.farmName}
-                helperText={errors.farmName}
-                disabled={isSubmitting}
-                autoFocus
-              />
-            </Box>
-            
-            <Box className="form-field">
-              <TextField
-                fullWidth
-                id="farmSize"
-                name="farmSize"
-                label={t('auth.farmSize')}
-                value={formData.farmSize}
-                onChange={handleChange}
-                error={!!errors.farmSize}
-                helperText={errors.farmSize}
-                disabled={isSubmitting}
-              />
-            </Box>
-            
-            <Box className="form-field">
-              <TextField
-                fullWidth
-                id="cropTypes"
-                name="cropTypes"
-                label={t('auth.cropTypes')}
-                value={formData.cropTypes}
-                onChange={handleChange}
-                error={!!errors.cropTypes}
-                helperText={errors.cropTypes}
-                disabled={isSubmitting}
-              />
-            </Box>
-            
-            <Box className="form-field">
-              <TextField
-                fullWidth
-                id="location"
-                name="location"
-                label={t('auth.location')}
-                value={formData.location}
-                onChange={handleChange}
-                error={!!errors.location}
-                helperText={errors.location}
-                disabled={isSubmitting}
-              />
-            </Box>
-          </>
-        );
-      case 2:
-        return (
-          <>
+          <Box>
             <Box className="form-field">
               <LockOutlined className="field-icon" />
               <TextField
                 fullWidth
-                id="password"
                 name="password"
-                label={t('auth.password')}
+                label={language === 'ar' ? 'كلمة المرور' : 'Password'}
                 type="password"
                 value={formData.password}
                 onChange={handleChange}
                 error={!!errors.password}
                 helperText={errors.password}
                 disabled={isSubmitting}
-                autoFocus
               />
             </Box>
-            
             <Box className="form-field">
               <LockOutlined className="field-icon" />
               <TextField
                 fullWidth
-                id="confirmPassword"
                 name="confirmPassword"
-                label={t('auth.confirmPassword')}
+                label={language === 'ar' ? 'تأكيد كلمة المرور' : 'Confirm Password'}
                 type="password"
                 value={formData.confirmPassword}
                 onChange={handleChange}
@@ -337,34 +271,60 @@ const RegisterPage = () => {
                 disabled={isSubmitting}
               />
             </Box>
-            
-            <FormControlLabel
-              control={
-                <Checkbox
-                  name="agreeTerms"
-                  color="primary"
-                  checked={formData.agreeTerms}
-                  onChange={handleChange}
-                  disabled={isSubmitting}
-                />
-              }
-              label={
-                <span>
-                  {t('auth.agreeTerms')} 
-                  <Link to="/terms" className="terms-link">
-                    {t('auth.termsLink')}
-                  </Link>
-                </span>
-              }
-              className="agree-terms"
-              error={!!errors.agreeTerms}
-            />
-            {errors.agreeTerms && (
-              <Typography color="error" variant="caption" className="terms-error">
-                {errors.agreeTerms}
-              </Typography>
-            )}
-          </>
+          </Box>
+        );
+      case 2:
+        return (
+          <Box>
+            <Box className="form-field">
+              <BusinessOutlined className="field-icon" />
+              <TextField
+                fullWidth
+                name="organization"
+                label={language === 'ar' ? 'اسم المؤسسة/المزرعة' : 'Organization/Farm Name'}
+                value={formData.organization}
+                onChange={handleChange}
+                error={!!errors.organization}
+                helperText={errors.organization}
+                disabled={isSubmitting}
+              />
+            </Box>
+            <Box className="form-field">
+              <TextField
+                fullWidth
+                name="role"
+                label={language === 'ar' ? 'المسمى الوظيفي' : 'Role/Position'}
+                value={formData.role}
+                onChange={handleChange}
+                error={!!errors.role}
+                helperText={errors.role}
+                disabled={isSubmitting}
+              />
+            </Box>
+            <Box className="form-field">
+              <TextField
+                fullWidth
+                name="farmSize"
+                label={language === 'ar' ? 'مساحة المزرعة (هكتار)' : 'Farm Size (hectares)'}
+                value={formData.farmSize}
+                onChange={handleChange}
+                disabled={isSubmitting}
+              />
+            </Box>
+            <Box className="form-field">
+              <TextField
+                fullWidth
+                name="cropTypes"
+                label={language === 'ar' ? 'أنواع المحاصيل' : 'Crop Types'}
+                multiline
+                rows={3}
+                value={formData.cropTypes}
+                onChange={handleChange}
+                disabled={isSubmitting}
+                placeholder={language === 'ar' ? 'مثال: قمح، ذرة، طماطم' : 'e.g., Wheat, Corn, Tomatoes'}
+              />
+            </Box>
+          </Box>
         );
       default:
         return null;
@@ -372,14 +332,20 @@ const RegisterPage = () => {
   };
 
   return (
-    <Grid container className="auth-container">
-      <Grid item xs={12} sm={10} md={8} lg={6} component={Paper} elevation={6} square className="auth-paper register-paper">
+    <Grid container className="auth-container" dir={language === 'ar' ? 'rtl' : 'ltr'}>
+      <Grid item xs={12} sm={10} md={8} lg={6} component={Paper} elevation={6} square className="auth-paper">
         <Box className="auth-form-container">
-          <Typography component="h1" variant="h5" className="auth-title">
-            {t('auth.register.title')}
-          </Typography>
+          <Box className="auth-header">
+            <img src="/logo.png" alt={language === 'ar' ? 'زرعي Logo' : 'Zr3i Logo'} className="auth-logo" />
+            <Typography component="h1" variant="h4" className="auth-title">
+              {language === 'ar' ? 'إنشاء حساب جديد' : 'Create Account'}
+            </Typography>
+            <Typography variant="subtitle1" className="auth-subtitle">
+              {language === 'ar' ? 'انضم إلى منصة الزراعة الذكية' : 'Join the Smart Agriculture Platform'}
+            </Typography>
+          </Box>
           
-          <Stepper activeStep={activeStep} className="register-stepper">
+          <Stepper activeStep={activeStep} sx={{ mb: 4 }}>
             {steps.map((label) => (
               <Step key={label}>
                 <StepLabel>{label}</StepLabel>
@@ -387,48 +353,61 @@ const RegisterPage = () => {
             ))}
           </Stepper>
           
+          {registerError && (
+            <Alert severity="error" sx={{ mb: 2 }}>
+              {registerError}
+            </Alert>
+          )}
+          
           <Box component="form" onSubmit={handleSubmit} className="auth-form">
             {renderStepContent(activeStep)}
             
-            <Box className="stepper-buttons">
+            <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
               <Button
-                disabled={activeStep === 0 || isSubmitting}
+                color="inherit"
+                disabled={activeStep === 0}
                 onClick={handleBack}
-                className="back-button"
+                sx={{ mr: 1 }}
               >
-                {t('auth.back')}
+                {language === 'ar' ? 'السابق' : 'Back'}
               </Button>
-              
+              <Box sx={{ flex: '1 1 auto' }} />
               {activeStep === steps.length - 1 ? (
                 <Button
+                  type="submit"
                   variant="contained"
-                  color="primary"
-                  onClick={handleSubmit}
                   disabled={isSubmitting}
-                  className="submit-button"
                 >
-                  {isLoading ? <CircularProgress size={24} color="inherit" /> : t('auth.register.submit')}
+                  {isSubmitting ? <CircularProgress size={24} color="inherit" /> : (language === 'ar' ? 'إنشاء الحساب' : 'Create Account')}
                 </Button>
               ) : (
-                <Button
-                  variant="contained"
-                  color="primary"
-                  onClick={handleNext}
-                  disabled={isSubmitting}
-                  className="next-button"
-                >
-                  {t('auth.next')}
+                <Button onClick={handleNext} variant="contained">
+                  {language === 'ar' ? 'التالي' : 'Next'}
                 </Button>
               )}
             </Box>
-            
-            <Grid container justifyContent="flex-end" className="auth-links">
-              <Grid item>
-                <Link to="/auth/login" className="auth-link">
-                  {t('auth.haveAccount')}
-                </Link>
-              </Grid>
+          </Box>
+          
+          <Grid container className="auth-links" sx={{ mt: 2 }}>
+            <Grid item xs>
+              <Link to="/login" className="auth-link">
+                {language === 'ar' ? 'لديك حساب بالفعل؟ تسجيل الدخول' : 'Already have an account? Sign In'}
+              </Link>
             </Grid>
+          </Grid>
+
+          <Box className="auth-footer" sx={{ mt: 3, textAlign: 'center' }}>
+            <Link to="/home" className="home-link">
+              {language === 'ar' ? 'العودة للصفحة الرئيسية' : 'Back to Home'}
+            </Link>
+            <Button
+              onClick={toggleLanguage}
+              startIcon={<Language />}
+              className="language-button"
+              sx={{ mt: 2 }}
+            >
+              {language === 'en' ? 'العربية' : 'English'}
+            </Button>
           </Box>
         </Box>
       </Grid>
@@ -437,3 +416,4 @@ const RegisterPage = () => {
 };
 
 export default RegisterPage;
+

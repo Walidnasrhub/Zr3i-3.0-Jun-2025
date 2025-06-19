@@ -69,15 +69,15 @@ const Sidebar = ({ open, toggleSidebar }) => {
       <Box className="sidebar-header">
         <img 
           src="/logo.png" 
-          alt="Zr3i Logo" 
+          alt={i18n.language === 'ar' ? 'زرعي Logo' : 'Zr3i Logo'} 
           className="sidebar-logo"
           onError={(e) => {
             e.target.onerror = null;
-            e.target.src = 'https://via.placeholder.com/150x50?text=Zr3i';
+            e.target.src = i18n.language === 'ar' ? 'https://via.placeholder.com/150x50?text=زرعي' : 'https://via.placeholder.com/150x50?text=Zr3i';
           }}
         />
         <Typography variant="h6" className="sidebar-title">
-          Zr3i
+          {i18n.language === 'ar' ? 'زرعي' : 'Zr3i'}
         </Typography>
       </Box>
       

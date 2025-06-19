@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import './AuthPages.css';
 
@@ -13,177 +12,150 @@ import {
   Box, 
   Grid, 
   CircularProgress,
-  Stepper,
-  Step,
-  StepLabel
+  Alert
 } from '@mui/material';
-import { 
-  EmailOutlined,
-  LockOutlined
-} from '@mui/icons-material';
+import { EmailOutlined, Language, CheckCircleOutlined } from '@mui/icons-material';
 
-const ForgotPasswordPage = () => {
-  const { t } = useTranslation();
+const ForgotPasswordPage = ({ toggleLanguage, language }) => {
   const navigate = useNavigate();
   
-  const [activeStep, setActiveStep] = useState(0);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  
-  const [formData, setFormData] = useState({
-    email: '',
-    verificationCode: '',
-    newPassword: '',
-    confirmPassword: ''
-  });
-  
+  const [email, setEmail] = useState('');
   const [errors, setErrors] = useState({});
-
-  const steps = [
-    t('auth.forgotPassword.steps.requestReset'),
-    t('auth.forgotPassword.steps.verifyCode'),
-    t('auth.forgotPassword.steps.resetPassword')
-  ];
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isEmailSent, setIsEmailSent] = useState(false);
+  const [resetError, setResetError] = useState('');
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value
-    });
+    setEmail(e.target.value);
     
     // Clear error when field is edited
-    if (errors[name]) {
-      setErrors({
-        ...errors,
-        [name]: ''
-      });
+    if (errors.email) {
+      setErrors({});
+    }
+    
+    // Clear reset error when user starts typing
+    if (resetError) {
+      setResetError('');
     }
   };
 
-  const validateStep = (step) => {
+  const validateForm = () => {
     const newErrors = {};
     
-    if (step === 0) {
-      // Validate email
-      if (!formData.email) {
-        newErrors.email = t('auth.errors.emailRequired');
-      } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-        newErrors.email = t('auth.errors.emailInvalid');
-      }
-    } else if (step === 1) {
-      // Validate verification code
-      if (!formData.verificationCode) {
-        newErrors.verificationCode = t('auth.errors.verificationCodeRequired');
-      } else if (formData.verificationCode.length !== 6) {
-        newErrors.verificationCode = t('auth.errors.verificationCodeInvalid');
-      }
-    } else if (step === 2) {
-      // Validate new password
-      if (!formData.newPassword) {
-        newErrors.newPassword = t('auth.errors.passwordRequired');
-      } else if (formData.newPassword.length < 8) {
-        newErrors.newPassword = t('auth.errors.passwordLength');
-      }
-      
-      if (!formData.confirmPassword) {
-        newErrors.confirmPassword = t('auth.errors.confirmPasswordRequired');
-      } else if (formData.newPassword !== formData.confirmPassword) {
-        newErrors.confirmPassword = t('auth.errors.passwordsNotMatch');
-      }
+    if (!email) {
+      newErrors.email = language === 'ar' ? 'البريد الإلكتروني مطلوب' : 'Email is required';
+    } else if (!/\S+@\S+\.\S+/.test(email)) {
+      newErrors.email = language === 'ar' ? 'البريد الإلكتروني غير صحيح' : 'Email is invalid';
     }
     
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleNext = async () => {
-    if (!validateStep(activeStep)) {
-      return;
-    }
-    
-    if (activeStep === 0) {
-      // Request password reset
-      setIsSubmitting(true);
-      setIsLoading(true);
-      
-      try {
-        // Simulate API call
-        await new Promise(resolve => setTimeout(resolve, 1000));
-        
-        toast.success(t('auth.forgotPassword.emailSent'));
-        setActiveStep(1);
-      } catch (error) {
-        console.error('Password reset request error:', error);
-        toast.error(t('auth.forgotPassword.emailError'));
-      } finally {
-        setIsSubmitting(false);
-        setIsLoading(false);
-      }
-    } else if (activeStep === 1) {
-      // Verify code
-      setIsSubmitting(true);
-      setIsLoading(true);
-      
-      try {
-        // Simulate API call
-        await new Promise(resolve => setTimeout(resolve, 1000));
-        
-        toast.success(t('auth.forgotPassword.codeVerified'));
-        setActiveStep(2);
-      } catch (error) {
-        console.error('Verification code error:', error);
-        toast.error(t('auth.forgotPassword.codeError'));
-      } finally {
-        setIsSubmitting(false);
-        setIsLoading(false);
-      }
-    }
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     
-    if (!validateStep(activeStep)) {
+    if (!validateForm()) {
       return;
     }
     
     setIsSubmitting(true);
-    setIsLoading(true);
+    setResetError('');
     
     try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1500));
+      // Simulate password reset request
+      await new Promise(resolve => setTimeout(resolve, 2000));
       
-      // Mock successful password reset
-      toast.success(t('auth.forgotPassword.resetSuccess'));
-      navigate('/auth/login');
+      // For demo purposes, always succeed
+      setIsEmailSent(true);
+      toast.success(language === 'ar' ? 'تم إرسال رابط إعادة تعيين كلمة المرور' : 'Password reset link sent');
+      
     } catch (error) {
       console.error('Password reset error:', error);
-      toast.error(t('auth.forgotPassword.resetError'));
+      setResetError(language === 'ar' ? 'حدث خطأ أثناء إرسال رابط إعادة التعيين' : 'An error occurred while sending reset link');
     } finally {
       setIsSubmitting(false);
-      setIsLoading(false);
     }
   };
 
-  const renderStepContent = (step) => {
-    switch (step) {
-      case 0:
-        return (
-          <>
-            <Typography variant="body2" className="step-description">
-              {t('auth.forgotPassword.emailInstructions')}
+  if (isEmailSent) {
+    return (
+      <Grid container className="auth-container" dir={language === 'ar' ? 'rtl' : 'ltr'}>
+        <Grid item xs={12} sm={8} md={6} lg={4} component={Paper} elevation={6} square className="auth-paper">
+          <Box className="auth-form-container">
+            <Box className="auth-header" sx={{ textAlign: 'center' }}>
+              <CheckCircleOutlined sx={{ fontSize: 64, color: 'success.main', mb: 2 }} />
+              <Typography component="h1" variant="h4" className="auth-title">
+                {language === 'ar' ? 'تم الإرسال!' : 'Email Sent!'}
+              </Typography>
+              <Typography variant="body1" sx={{ mt: 2, mb: 3 }}>
+                {language === 'ar' ? 
+                  `تم إرسال رابط إعادة تعيين كلمة المرور إلى ${email}. يرجى التحقق من صندوق الوارد الخاص بك.` :
+                  `A password reset link has been sent to ${email}. Please check your inbox.`
+                }
+              </Typography>
+              
+              <Button
+                variant="contained"
+                onClick={() => navigate('/login')}
+                sx={{ mb: 2 }}
+              >
+                {language === 'ar' ? 'العودة لتسجيل الدخول' : 'Back to Login'}
+              </Button>
+              
+              <Typography variant="body2" color="text.secondary">
+                {language === 'ar' ? 
+                  'لم تستلم الرسالة؟' :
+                  "Didn't receive the email?"
+                }
+                <Button 
+                  variant="text" 
+                  onClick={() => setIsEmailSent(false)}
+                  sx={{ ml: 1 }}
+                >
+                  {language === 'ar' ? 'إعادة الإرسال' : 'Resend'}
+                </Button>
+              </Typography>
+            </Box>
+          </Box>
+        </Grid>
+      </Grid>
+    );
+  }
+
+  return (
+    <Grid container className="auth-container" dir={language === 'ar' ? 'rtl' : 'ltr'}>
+      <Grid item xs={12} sm={8} md={6} lg={4} component={Paper} elevation={6} square className="auth-paper">
+        <Box className="auth-form-container">
+          <Box className="auth-header">
+            <img src="/logo.png" alt={language === 'ar' ? 'زرعي Logo' : 'Zr3i Logo'} className="auth-logo" />
+            <Typography component="h1" variant="h4" className="auth-title">
+              {language === 'ar' ? 'نسيت كلمة المرور؟' : 'Forgot Password?'}
             </Typography>
-            
+            <Typography variant="subtitle1" className="auth-subtitle">
+              {language === 'ar' ? 
+                'أدخل بريدك الإلكتروني وسنرسل لك رابط إعادة تعيين كلمة المرور' :
+                'Enter your email and we\'ll send you a password reset link'
+              }
+            </Typography>
+          </Box>
+          
+          {resetError && (
+            <Alert severity="error" sx={{ mb: 2 }}>
+              {resetError}
+            </Alert>
+          )}
+          
+          <Box component="form" onSubmit={handleSubmit} className="auth-form">
             <Box className="form-field">
               <EmailOutlined className="field-icon" />
               <TextField
                 fullWidth
                 id="email"
                 name="email"
-                label={t('auth.email')}
-                value={formData.email}
+                label={language === 'ar' ? 'البريد الإلكتروني' : 'Email'}
+                type="email"
+                value={email}
                 onChange={handleChange}
                 error={!!errors.email}
                 helperText={errors.email}
@@ -194,134 +166,42 @@ const ForgotPasswordPage = () => {
             </Box>
             
             <Button
+              type="submit"
               fullWidth
               variant="contained"
               color="primary"
-              onClick={handleNext}
               disabled={isSubmitting}
               className="submit-button"
             >
-              {isLoading ? <CircularProgress size={24} color="inherit" /> : t('auth.forgotPassword.sendCode')}
+              {isSubmitting ? <CircularProgress size={24} color="inherit" /> : (language === 'ar' ? 'إرسال رابط إعادة التعيين' : 'Send Reset Link')}
             </Button>
-          </>
-        );
-      case 1:
-        return (
-          <>
-            <Typography variant="body2" className="step-description">
-              {t('auth.forgotPassword.codeInstructions')}
-            </Typography>
-            
-            <Box className="form-field">
-              <TextField
-                fullWidth
-                id="verificationCode"
-                name="verificationCode"
-                label={t('auth.verificationCode')}
-                value={formData.verificationCode}
-                onChange={handleChange}
-                error={!!errors.verificationCode}
-                helperText={errors.verificationCode}
-                disabled={isSubmitting}
-                autoFocus
-              />
-            </Box>
-            
-            <Button
-              fullWidth
-              variant="contained"
-              color="primary"
-              onClick={handleNext}
-              disabled={isSubmitting}
-              className="submit-button"
-            >
-              {isLoading ? <CircularProgress size={24} color="inherit" /> : t('auth.forgotPassword.verifyCode')}
-            </Button>
-          </>
-        );
-      case 2:
-        return (
-          <>
-            <Typography variant="body2" className="step-description">
-              {t('auth.forgotPassword.newPasswordInstructions')}
-            </Typography>
-            
-            <Box className="form-field">
-              <LockOutlined className="field-icon" />
-              <TextField
-                fullWidth
-                id="newPassword"
-                name="newPassword"
-                label={t('auth.newPassword')}
-                type="password"
-                value={formData.newPassword}
-                onChange={handleChange}
-                error={!!errors.newPassword}
-                helperText={errors.newPassword}
-                disabled={isSubmitting}
-                autoFocus
-              />
-            </Box>
-            
-            <Box className="form-field">
-              <LockOutlined className="field-icon" />
-              <TextField
-                fullWidth
-                id="confirmPassword"
-                name="confirmPassword"
-                label={t('auth.confirmPassword')}
-                type="password"
-                value={formData.confirmPassword}
-                onChange={handleChange}
-                error={!!errors.confirmPassword}
-                helperText={errors.confirmPassword}
-                disabled={isSubmitting}
-              />
-            </Box>
-            
-            <Button
-              fullWidth
-              variant="contained"
-              color="primary"
-              onClick={handleSubmit}
-              disabled={isSubmitting}
-              className="submit-button"
-            >
-              {isLoading ? <CircularProgress size={24} color="inherit" /> : t('auth.forgotPassword.resetPassword')}
-            </Button>
-          </>
-        );
-      default:
-        return null;
-    }
-  };
-
-  return (
-    <Grid container className="auth-container">
-      <Grid item xs={12} sm={8} md={6} lg={4} component={Paper} elevation={6} square className="auth-paper">
-        <Box className="auth-form-container">
-          <Typography component="h1" variant="h5" className="auth-title">
-            {t('auth.forgotPassword.title')}
-          </Typography>
+          </Box>
           
-          <Stepper activeStep={activeStep} className="reset-stepper">
-            {steps.map((label) => (
-              <Step key={label}>
-                <StepLabel>{label}</StepLabel>
-              </Step>
-            ))}
-          </Stepper>
-          
-          <Box component="form" onSubmit={handleSubmit} className="auth-form">
-            {renderStepContent(activeStep)}
-            
-            <Grid container className="auth-links">
-              <Grid item>
-                <Link to="/auth/login" className="auth-link">
-                  {t('auth.backToLogin')}
-                </Link>
-              </Grid>
+          <Grid container className="auth-links" sx={{ mt: 2 }}>
+            <Grid item xs>
+              <Link to="/login" className="auth-link">
+                {language === 'ar' ? 'تذكرت كلمة المرور؟ تسجيل الدخول' : 'Remember your password? Sign In'}
+              </Link>
             </Grid>
+            <Grid item>
+              <Link to="/register" className="auth-link">
+                {language === 'ar' ? 'إنشاء حساب جديد' : 'Create Account'}
+              </Link>
+            </Grid>
+          </Grid>
+
+          <Box className="auth-footer" sx={{ mt: 3, textAlign: 'center' }}>
+            <Link to="/home" className="home-link">
+              {language === 'ar' ? 'العودة للصفحة الرئيسية' : 'Back to Home'}
+            </Link>
+            <Button
+              onClick={toggleLanguage}
+              startIcon={<Language />}
+              className="language-button"
+              sx={{ mt: 2 }}
+            >
+              {language === 'en' ? 'العربية' : 'English'}
+            </Button>
           </Box>
         </Box>
       </Grid>
@@ -330,3 +210,4 @@ const ForgotPasswordPage = () => {
 };
 
 export default ForgotPasswordPage;
+

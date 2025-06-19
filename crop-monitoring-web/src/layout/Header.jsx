@@ -60,21 +60,21 @@ const Header = ({ toggleSidebar }) => {
   
   const getPageTitle = () => {
     const path = location.pathname;
-    if (path === '/') return 'Zr3i Dashboard - Smart Crop Monitoring';
-    if (path === '/home') return 'Zr3i - Advanced Agricultural Intelligence';
+    if (path === '/') return i18n.language === 'ar' ? 'زرعي لوحة القيادة - مراقبة المحاصيل الذكية' : 'Zr3i Dashboard - Smart Crop Monitoring';
+    if (path === '/home') return i18n.language === 'ar' ? 'زرعي - ذكاء زراعي متقدم' : 'Zr3i - Advanced Agricultural Intelligence';
     if (path.includes('/dashboard')) return 'Farm Dashboard - Real-time Insights';
     if (path.includes('/fields')) return 'Field Management - Precision Agriculture';
-    if (path.includes('/monitoring/satellite')) return 'Satellite Imagery - Sentinel-2 Analysis';
-    if (path.includes('/monitoring/weather')) return 'Weather Intelligence - Environmental Data';
-    if (path.includes('/monitoring/crop-health')) return 'Crop Health Analytics - AI-Powered Insights';
-    if (path.includes('/monitoring/soil-water')) return 'Soil & Water Monitoring - Smart Irrigation';
-    if (path.includes('/monitoring/risk-analysis')) return 'Risk Assessment - Predictive Analytics';
-    if (path.includes('/monitoring')) return 'Field Monitoring - Comprehensive Analysis';
-    if (path.includes('/comparative-analysis')) return 'Comparative Analysis - Performance Benchmarking';
-    if (path.includes('/export')) return 'Data Export - Professional Reports';
-    if (path.includes('/affiliate')) return 'Partner Program - Grow Together';
-    if (path.includes('/subscription')) return 'Subscription Management - Premium Features';
-    return 'Zr3i - Smart Agriculture Platform';
+    if (path.includes("/monitoring/satellite")) return i18n.language === 'ar' ? 'زرعي - صور الأقمار الصناعية' : 'Zr3i - Satellite Imagery - Sentinel-2 Analysis';
+    if (path.includes("/monitoring/weather")) return i18n.language === 'ar' ? 'زرعي - تحليلات الطقس' : 'Zr3i - Weather Intelligence - Environmental Data';
+    if (path.includes("/monitoring/crop-health")) return i18n.language === 'ar' ? 'زرعي - صحة المحاصيل' : 'Zr3i - Crop Health Analytics - AI-Powered Insights';
+    if (path.includes("/monitoring/soil-water")) return i18n.language === 'ar' ? 'زرعي - التربة والمياه' : 'Zr3i - Soil & Water Monitoring - Smart Irrigation';
+    if (path.includes("/monitoring/risk-analysis")) return i18n.language === 'ar' ? 'زرعي - تحليل المخاطر' : 'Zr3i - Risk Assessment - Predictive Analytics';
+    if (path.includes("/monitoring")) return i18n.language === 'ar' ? 'زرعي - المراقبة الشاملة' : 'Zr3i - Field Monitoring - Comprehensive Analysis';
+    if (path.includes("/comparative-analysis")) return i18n.language === 'ar' ? 'زرعي - التحليل المقارن' : 'Zr3i - Comparative Analysis - Performance Benchmarking';
+    if (path.includes("/export")) return i18n.language === 'ar' ? 'زرعي - تقارير احترافية' : 'Zr3i - Data Export - Professional Reports';
+    if (path.includes("/affiliate")) return i18n.language === 'ar' ? 'زرعي - برنامج الشركاء' : 'Zr3i - Partner Program - Grow Together';
+    if (path.includes("/subscription")) return i18n.language === 'ar' ? 'زرعي - إدارة الاشتراكات' : 'Zr3i - Subscription Management - Premium Features';
+    return i18n.language === 'ar' ? 'زرعي - منصة الزراعة الذكية' : 'Zr3i - Smart Agriculture Platform';
   };
   
   return (

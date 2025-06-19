@@ -744,7 +744,7 @@ const HomePage = () => {
           <Divider className="footer-divider" />
           <Box className="footer-bottom">
             <Typography variant="body2" textAlign="center">
-              © 2024 Zr3i. All rights reserved.
+              © 2024 {i18n.language === 'ar' ? 'زرعي' : 'Zr3i'}. All rights reserved.
             </Typography>
           </Box>
         </Container>

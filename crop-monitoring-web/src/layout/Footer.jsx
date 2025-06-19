@@ -12,7 +12,7 @@ const Footer = () => {
         <Grid container spacing={4} className="footer-content">
           <Grid item xs={12} sm={6} md={3}>
             <Typography variant="h6" className="footer-heading">
-              Zr3i
+              {i18n.language === 'ar' ? 'زرعي' : 'Zr3i'}
             </Typography>
             <Typography variant="body2" className="footer-description">
               Advanced crop monitoring and management platform leveraging satellite imagery and remote sensing technology.
@@ -103,7 +103,7 @@ const Footer = () => {
         
         <Box className="footer-bottom">
           <Typography variant="body2" className="copyright">
-            © {currentYear} Zr3i. All rights reserved.
+            © {currentYear} {i18n.language === 'ar' ? 'زرعي' : 'Zr3i'}. All rights reserved.
           </Typography>
           <Box className="footer-legal-links">
             <Link href="/terms" color="inherit" className="legal-link">

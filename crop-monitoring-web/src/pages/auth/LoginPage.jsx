@@ -6,7 +6,23 @@ import { toast } from 'react-toastify';
 import './AuthPages.css';
 
 // Components
-import { TextField, Button, Checkbox, FormControlLabel, Paper, Typography, Box, Grid, CircularProgress, Accordion, AccordionSummary, AccordionDetails, Card, CardContent } from '@mui/material';
+import { 
+  TextField, 
+  Button, 
+  Checkbox, 
+  FormControlLabel, 
+  Paper, 
+  Typography, 
+  Box, 
+  Grid, 
+  CircularProgress, 
+  Accordion, 
+  AccordionSummary, 
+  AccordionDetails, 
+  Card, 
+  CardContent,
+  Alert
+} from '@mui/material';
 import { LockOutlined, EmailOutlined, ExpandMore, AccountCircle, Language } from '@mui/icons-material';
 
 const LoginPage = ({ toggleLanguage, language }) => {
@@ -23,6 +39,7 @@ const LoginPage = ({ toggleLanguage, language }) => {
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [loginError, setLoginError] = useState('');
 
   const handleChange = (e) => {
     const { name, value, checked } = e.target;
@@ -38,6 +55,11 @@ const LoginPage = ({ toggleLanguage, language }) => {
         [name]: ''
       });
     }
+    
+    // Clear login error when user starts typing
+    if (loginError) {
+      setLoginError('');
+    }
   };
 
   const validateForm = () => {
@@ -45,14 +67,14 @@ const LoginPage = ({ toggleLanguage, language }) => {
     
     // Email validation
     if (!formData.email) {
-      newErrors.email = t('auth.errors.emailRequired');
+      newErrors.email = language === 'ar' ? 'البريد الإلكتروني مطلوب' : 'Email is required';
     } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      newErrors.email = t('auth.errors.emailInvalid');
+      newErrors.email = language === 'ar' ? 'البريد الإلكتروني غير صحيح' : 'Email is invalid';
     }
     
     // Password validation
     if (!formData.password) {
-      newErrors.password = t('auth.errors.passwordRequired');
+      newErrors.password = language === 'ar' ? 'كلمة المرور مطلوبة' : 'Password is required';
     }
     
     setErrors(newErrors);
@@ -68,6 +90,7 @@ const LoginPage = ({ toggleLanguage, language }) => {
     
     setIsSubmitting(true);
     setIsLoading(true);
+    setLoginError('');
     
     try {
       const result = await login(formData.email, formData.password);
@@ -79,14 +102,14 @@ const LoginPage = ({ toggleLanguage, language }) => {
           localStorage.removeItem('rememberedEmail');
         }
         
-        toast.success(`${t('common.welcome')}, ${result.user.name}!`);
+        toast.success(`${language === 'ar' ? 'أهلاً وسهلاً' : 'Welcome'}, ${result.user.name}!`);
         navigate('/');
       } else {
-        toast.error(result.error);
+        setLoginError(language === 'ar' ? 'البريد الإلكتروني أو كلمة المرور غير صحيحة' : 'Invalid email or password');
       }
     } catch (error) {
       console.error('Login error:', error);
-      toast.error(t('auth.loginError'));
+      setLoginError(language === 'ar' ? 'حدث خطأ أثناء تسجيل الدخول' : 'An error occurred during login');
     } finally {
       setIsSubmitting(false);
       setIsLoading(false);
@@ -95,18 +118,19 @@ const LoginPage = ({ toggleLanguage, language }) => {
 
   const handleDemoLogin = async (demoEmail, demoPassword) => {
     setIsLoading(true);
+    setLoginError('');
     
     try {
       const result = await login(demoEmail, demoPassword);
       
       if (result.success) {
-        toast.success(`${t('common.welcome')}, ${result.user.name}!`);
+        toast.success(`${language === 'ar' ? 'أهلاً وسهلاً' : 'Welcome'}, ${result.user.name}!`);
         navigate('/');
       } else {
-        toast.error(result.error);
+        setLoginError(language === 'ar' ? 'فشل في تسجيل الدخول بالحساب التجريبي' : 'Failed to login with demo account');
       }
     } catch (error) {
-      toast.error(t('auth.loginError'));
+      setLoginError(language === 'ar' ? 'حدث خطأ أثناء تسجيل الدخول' : 'An error occurred during login');
     } finally {
       setIsLoading(false);
     }
@@ -131,14 +155,20 @@ const LoginPage = ({ toggleLanguage, language }) => {
       <Grid item xs={12} sm={8} md={6} lg={4} component={Paper} elevation={6} square className="auth-paper">
         <Box className="auth-form-container">
           <Box className="auth-header">
-            <img src="/logo.png" alt="Zr3i Logo" className="auth-logo" />
+            <img src="/logo.png" alt={language === 'ar' ? 'زرعي Logo' : 'Zr3i Logo'} className="auth-logo" />
             <Typography component="h1" variant="h4" className="auth-title">
-              {language === 'ar' ? 'أهلاً بك في زر3ي' : 'Welcome to Zr3i'}
+              {language === 'ar' ? 'أهلاً بك في زرعي' : 'Welcome to Zr3i'}
             </Typography>
             <Typography variant="subtitle1" className="auth-subtitle">
               {language === 'ar' ? 'منصة الزراعة الذكية' : 'Smart Agriculture Platform'}
             </Typography>
           </Box>
+          
+          {loginError && (
+            <Alert severity="error" sx={{ mb: 2 }}>
+              {loginError}
+            </Alert>
+          )}
           
           <Box component="form" onSubmit={handleSubmit} className="auth-form">
             <Box className="form-field">
@@ -147,7 +177,7 @@ const LoginPage = ({ toggleLanguage, language }) => {
                 fullWidth
                 id="email"
                 name="email"
-                label={t('auth.email')}
+                label={language === 'ar' ? 'البريد الإلكتروني' : 'Email'}
                 value={formData.email}
                 onChange={handleChange}
                 error={!!errors.email}
@@ -164,7 +194,7 @@ const LoginPage = ({ toggleLanguage, language }) => {
                 fullWidth
                 id="password"
                 name="password"
-                label={t('auth.password')}
+                label={language === 'ar' ? 'كلمة المرور' : 'Password'}
                 type="password"
                 value={formData.password}
                 onChange={handleChange}
@@ -185,7 +215,7 @@ const LoginPage = ({ toggleLanguage, language }) => {
                   disabled={isSubmitting}
                 />
               }
-              label={t('auth.rememberMe')}
+              label={language === 'ar' ? 'تذكرني' : 'Remember me'}
               className="remember-me"
             />
             
@@ -197,7 +227,7 @@ const LoginPage = ({ toggleLanguage, language }) => {
               disabled={isSubmitting}
               className="submit-button"
             >
-              {isLoading ? <CircularProgress size={24} color="inherit" /> : t('auth.loginButton')}
+              {isLoading ? <CircularProgress size={24} color="inherit" /> : (language === 'ar' ? 'تسجيل الدخول' : 'Sign In')}
             </Button>
           </Box>
 
@@ -210,7 +240,7 @@ const LoginPage = ({ toggleLanguage, language }) => {
                 id="demo-header"
               >
                 <Typography variant="h6" color="primary">
-                  {language === 'ar' ? 'جرب زر3ي بحسابات تجريبية' : 'Try Zr3i with Demo Accounts'}
+                  {language === 'ar' ? 'جرب زرعي بحسابات تجريبية' : 'Try Zr3i with Demo Accounts'}
                 </Typography>
               </AccordionSummary>
               <AccordionDetails>
@@ -259,8 +289,8 @@ const LoginPage = ({ toggleLanguage, language }) => {
                 <Box sx={{ mt: 2, p: 2, bgcolor: 'info.light', borderRadius: 1 }}>
                   <Typography variant="body2" color="info.contrastText">
                     <strong>{language === 'ar' ? 'ملاحظة:' : 'Note:'}</strong> {language === 'ar' ? 
-                      'الحسابات التجريبية تشمل حقولاً مُعدة مسبقاً وبيانات أقمار صناعية ورؤى مراقبة لعرض جميع إمكانيات زر3ي.' :
-                      'Demo accounts include pre-configured fields, satellite data, and monitoring insights to showcase Zr3i\'s full capabilities.'
+                      'الحسابات التجريبية تشمل حقولاً مُعدة مسبقاً وبيانات أقمار صناعية ورؤى مراقبة لعرض جميع إمكانيات زرعي.' :
+                      "Demo accounts include pre-configured fields, satellite data, and monitoring insights to showcase Zr3i's full capabilities."
                     }
                   </Typography>
                 </Box>
@@ -271,19 +301,19 @@ const LoginPage = ({ toggleLanguage, language }) => {
           <Grid container className="auth-links" sx={{ mt: 2 }}>
             <Grid item xs>
               <Link to="/forgot-password" className="auth-link">
-                {t('auth.forgotPassword')}
+                {language === 'ar' ? 'نسيت كلمة المرور؟' : 'Forgot Password?'}
               </Link>
             </Grid>
             <Grid item>
               <Link to="/register" className="auth-link">
-                {t('auth.noAccount')}
+                {language === 'ar' ? 'إنشاء حساب جديد' : 'Create Account'}
               </Link>
             </Grid>
           </Grid>
 
           <Box className="auth-footer" sx={{ mt: 3, textAlign: 'center' }}>
             <Link to="/home" className="home-link">
-              {t('common.backToHome')}
+              {language === 'ar' ? 'العودة للصفحة الرئيسية' : 'Back to Home'}
             </Link>
             <Button
               onClick={toggleLanguage}

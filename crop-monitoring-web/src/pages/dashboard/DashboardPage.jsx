@@ -39,6 +39,11 @@ const DashboardPage = () => {
   const [alerts, setAlerts] = useState([]);
 
   useEffect(() => {
+    console.log("User object in DashboardPage useEffect:", user);
+    console.log("User fields in DashboardPage useEffect:", user?.fields);
+  }, [user]);
+
+  useEffect(() => {
     // Simulate loading weather data
     setWeatherData({
       temperature: 28,
@@ -352,4 +357,6 @@ const DashboardPage = () => {
 };
 
 export default DashboardPage;
+
+
 

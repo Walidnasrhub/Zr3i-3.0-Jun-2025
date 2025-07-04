@@ -11,12 +11,7 @@ export const useAuth = () => {
 };
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [loading, setLoading] = useState(true);
-
-  // Demo users for testing
-  const demoUsers = [
+  const initialDemoUsers = [
     {
       id: 1,
       email: 'demo@zr3i.com',
@@ -65,6 +60,18 @@ export const AuthProvider = ({ children }) => {
     }
   ];
 
+  const [user, setUser] = useState(null);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [allUsers, setAllUsers] = useState(() => {
+    const storedUsers = localStorage.getItem('zr3i_all_users');
+    return storedUsers ? JSON.parse(storedUsers) : initialDemoUsers;
+  });
+
+  useEffect(() => {
+    localStorage.setItem('zr3i_all_users', JSON.stringify(allUsers));
+  }, [allUsers]);
+
   useEffect(() => {
     // Check for existing session
     const checkAuthStatus = () => {
@@ -94,18 +101,18 @@ export const AuthProvider = ({ children }) => {
     try {
       setLoading(true);
       
-      // Find demo user
-      const demoUser = demoUsers.find(
+      // Find user in allUsers (demo or registered)
+      const foundUser = allUsers.find(
         user => user.email === email && user.password === password
       );
 
-      if (demoUser) {
+      if (foundUser) {
         // Simulate API call delay
         await new Promise(resolve => setTimeout(resolve, 1000));
         
         // Create user session
         const userSession = {
-          ...demoUser,
+          ...foundUser,
           lastLogin: new Date().toISOString()
         };
         
@@ -114,15 +121,14 @@ export const AuthProvider = ({ children }) => {
         
         // Store in localStorage
         localStorage.setItem('zr3i_user', JSON.stringify(userWithoutPassword));
-        localStorage.setItem('zr3i_token', `demo_token_${demoUser.id}_${Date.now()}`);
+        localStorage.setItem('zr3i_token', `token_${foundUser.id}_${Date.now()}`);
         
         setUser(userWithoutPassword);
         setIsAuthenticated(true);
         
         return { success: true, user: userWithoutPassword };
       } else {
-        // Check for regular login (this would be replaced with actual API call)
-        throw new Error('Invalid credentials. Use demo accounts: demo@zr3i.com/demo123, farmer@zr3i.com/farmer123, or agronomist@zr3i.com/agro123');
+        throw new Error('Invalid credentials. Please check your email and password.');
       }
     } catch (error) {
       console.error('Login error:', error);
@@ -139,25 +145,32 @@ export const AuthProvider = ({ children }) => {
       // Simulate API call delay
       await new Promise(resolve => setTimeout(resolve, 1500));
       
-      // Check if email already exists in demo users
-      const existingUser = demoUsers.find(user => user.email === userData.email);
+      // Check if email already exists
+      const existingUser = allUsers.find(user => user.email === userData.email);
       if (existingUser) {
         throw new Error('Email already exists. Please use a different email or try logging in.');
       }
       
-      // Create new user (in real app, this would be sent to backend)
+      // Create new user
       const newUser = {
         id: Date.now(),
         email: userData.email,
+        password: userData.password,
         name: userData.name,
         role: userData.role || 'Farmer',
         profileImage: null,
         subscription: 'Basic',
-        fields: [],
+        fields: [
+          { id: Date.now() + 1, name: 'Default Field 1', area: '50 hectares', crop: 'Wheat', status: 'Healthy' },
+          { id: Date.now() + 2, name: 'Default Field 2', area: '30 hectares', crop: 'Corn', status: 'Monitoring Required' }
+        ],
         lastLogin: new Date().toISOString(),
         joinDate: new Date().toISOString()
       };
       
+      // Add new user to allUsers
+      setAllUsers(prevUsers => [...prevUsers, newUser]);
+
       // Remove password from stored data
       const { password: _, ...userWithoutPassword } = newUser;
       
@@ -191,7 +204,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   const getDemoCredentials = () => {
-    return demoUsers.map(user => ({
+    return initialDemoUsers.map(user => ({
       email: user.email,
       password: user.password,
       name: user.name,
@@ -219,4 +232,6 @@ export const AuthProvider = ({ children }) => {
 };
 
 export default AuthProvider;
+
+
 

@@ -1,9 +1,11 @@
 import React from 'react';
 import { Box, Typography, Container, Grid, Link, Divider } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 import './Footer.css';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
+  const { i18n } = useTranslation();
   
   return (
     <Box component="footer" className="footer">
@@ -123,3 +125,5 @@ const Footer = () => {
 };
 
 export default Footer;
+
+

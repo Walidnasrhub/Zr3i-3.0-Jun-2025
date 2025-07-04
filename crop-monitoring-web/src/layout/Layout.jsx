@@ -12,6 +12,9 @@ const Layout = ({ children }) => {
     setSidebarOpen(!sidebarOpen);
   };
   
+  console.log("Layout component rendering...");
+  console.log("Layout children:", children);
+
   return (
     <Box className="layout-container">
       <Header toggleSidebar={toggleSidebar} />
@@ -27,3 +30,5 @@ const Layout = ({ children }) => {
 };
 
 export default Layout;
+
+

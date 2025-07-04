@@ -29,6 +29,7 @@ import {
   MonetizationOn
 } from '@mui/icons-material';
 import { useAuth } from '../hooks/useAuth';
+import { useTranslation } from 'react-i18next';
 import './Sidebar.css';
 
 const Sidebar = ({ open, toggleSidebar }) => {
@@ -36,6 +37,7 @@ const Sidebar = ({ open, toggleSidebar }) => {
   const location = useLocation();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+  const { i18n } = useTranslation();
   
   const [monitoringOpen, setMonitoringOpen] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
@@ -368,3 +370,5 @@ const Sidebar = ({ open, toggleSidebar }) => {
 };
 
 export default Sidebar;
+
+

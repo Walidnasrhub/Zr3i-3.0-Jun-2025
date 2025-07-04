@@ -54,7 +54,7 @@ import ExportPage from './pages/ExportPage';
 import DashboardCustomizationPage from './pages/DashboardCustomizationPage';
 
 // Auth Provider
-import AuthProvider from './hooks/useAuth';
+import AuthProvider, { useAuth } from './hooks/useAuth';
 
 import 'react-toastify/dist/ReactToastify.css';
 import './App.css';
@@ -63,6 +63,7 @@ import './rtl.css';
 // Protected Route Component
 const ProtectedRoute = ({ children }) => {
   const isAuthenticated = localStorage.getItem('zr3i_token');
+  console.log("ProtectedRoute - isAuthenticated (direct check):", isAuthenticated);
   
   if (!isAuthenticated) {
     return <Navigate to="/login" replace />;
@@ -108,6 +109,8 @@ function App() {
     document.dir = language === 'ar' ? 'rtl' : 'ltr';
     document.documentElement.lang = language;
   }, [language]);
+
+  console.log("App component rendering...");
 
   return (
     <ThemeProvider theme={theme}>
@@ -342,3 +345,4 @@ function App() {
 }
 
 export default App;
+

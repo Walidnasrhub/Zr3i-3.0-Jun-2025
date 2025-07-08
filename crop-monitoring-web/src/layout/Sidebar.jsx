@@ -100,8 +100,8 @@ const Sidebar = ({ open, toggleSidebar }) => {
         <ListItem 
           button 
           component={Link} 
-          to="/" 
-          className={isActive('/') ? 'active-link' : ''}
+          to="/app/dashboard" 
+          className={isActive('/app/dashboard') ? 'active-link' : ''}
           onClick={isMobile ? toggleSidebar : undefined}
         >
           <ListItemIcon>
@@ -113,8 +113,8 @@ const Sidebar = ({ open, toggleSidebar }) => {
         <ListItem 
           button 
           component={Link} 
-          to="/fields" 
-          className={isActive('/fields') ? 'active-link' : ''}
+          to="/app/fields" 
+          className={isActive('/app/fields') ? 'active-link' : ''}
           onClick={isMobile ? toggleSidebar : undefined}
         >
           <ListItemIcon>
@@ -136,8 +136,8 @@ const Sidebar = ({ open, toggleSidebar }) => {
             <ListItem 
               button 
               component={Link} 
-              to="/monitoring/satellite" 
-              className={`nested-list-item ${isActive('/monitoring/satellite') ? 'active-link' : ''}`}
+              to="/app/monitoring/satellite" 
+              className={`nested-list-item ${isActive('/app/monitoring/satellite') ? 'active-link' : ''}`}
               onClick={isMobile ? toggleSidebar : undefined}
             >
               <ListItemIcon>
@@ -149,8 +149,8 @@ const Sidebar = ({ open, toggleSidebar }) => {
             <ListItem 
               button 
               component={Link} 
-              to="/monitoring/weather" 
-              className={`nested-list-item ${isActive('/monitoring/weather') ? 'active-link' : ''}`}
+              to="/app/monitoring/weather" 
+              className={`nested-list-item ${isActive('/app/monitoring/weather') ? 'active-link' : ''}`}
               onClick={isMobile ? toggleSidebar : undefined}
             >
               <ListItemIcon>
@@ -162,8 +162,8 @@ const Sidebar = ({ open, toggleSidebar }) => {
             <ListItem 
               button 
               component={Link} 
-              to="/monitoring/vegetation-indices" 
-              className={`nested-list-item ${isActive('/monitoring/vegetation-indices') ? 'active-link' : ''}`}
+              to="/app/monitoring/vegetation-indices" 
+              className={`nested-list-item ${isActive('/app/monitoring/vegetation-indices') ? 'active-link' : ''}`}
               onClick={isMobile ? toggleSidebar : undefined}
             >
               <ListItemIcon>
@@ -175,8 +175,8 @@ const Sidebar = ({ open, toggleSidebar }) => {
             <ListItem 
               button 
               component={Link} 
-              to="/monitoring/crop-health" 
-              className={`nested-list-item ${isActive('/monitoring/crop-health') ? 'active-link' : ''}`}
+              to="/app/monitoring/crop-health" 
+              className={`nested-list-item ${isActive('/app/monitoring/crop-health') ? 'active-link' : ''}`}
               onClick={isMobile ? toggleSidebar : undefined}
             >
               <ListItemIcon>
@@ -188,8 +188,8 @@ const Sidebar = ({ open, toggleSidebar }) => {
             <ListItem 
               button 
               component={Link} 
-              to="/monitoring/soil-water" 
-              className={`nested-list-item ${isActive('/monitoring/soil-water') ? 'active-link' : ''}`}
+              to="/app/monitoring/soil-water" 
+              className={`nested-list-item ${isActive('/app/monitoring/soil-water') ? 'active-link' : ''}`}
               onClick={isMobile ? toggleSidebar : undefined}
             >
               <ListItemIcon>
@@ -201,8 +201,8 @@ const Sidebar = ({ open, toggleSidebar }) => {
             <ListItem 
               button 
               component={Link} 
-              to="/monitoring/risk-analysis" 
-              className={`nested-list-item ${isActive('/monitoring/risk-analysis') ? 'active-link' : ''}`}
+              to="/app/monitoring/risk-analysis" 
+              className={`nested-list-item ${isActive('/app/monitoring/risk-analysis') ? 'active-link' : ''}`}
               onClick={isMobile ? toggleSidebar : undefined}
             >
               <ListItemIcon>
@@ -214,8 +214,8 @@ const Sidebar = ({ open, toggleSidebar }) => {
             <ListItem 
               button 
               component={Link} 
-              to="/monitoring/reports" 
-              className={`nested-list-item ${isActive('/monitoring/reports') ? 'active-link' : ''}`}
+              to="/app/monitoring/reports" 
+              className={`nested-list-item ${isActive('/app/monitoring/reports') ? 'active-link' : ''}`}
               onClick={isMobile ? toggleSidebar : undefined}
             >
               <ListItemIcon>
@@ -237,6 +237,19 @@ const Sidebar = ({ open, toggleSidebar }) => {
             <Compare />
           </ListItemIcon>
           <ListItemText primary="Performance Benchmarking" />
+        </ListItem>
+        
+        <ListItem 
+          button 
+          component={Link} 
+          to="/commodity-prices" 
+          className={isActive('/commodity-prices') ? 'active-link' : ''}
+          onClick={isMobile ? toggleSidebar : undefined}
+        >
+          <ListItemIcon>
+            <MonetizationOn />
+          </ListItemIcon>
+          <ListItemText primary="Market Prices" />
         </ListItem>
         
         <ListItem 

@@ -15,6 +15,9 @@ import HomePage from './pages/HomePage';
 // Import VegetationIndicesPage
 import VegetationIndicesPage from './pages/monitoring/VegetationIndicesPage';
 
+// Import CommodityPricesPage
+import CommodityPricesPage from './pages/commodity/CommodityPricesPage';
+
 // Auth pages
 import LoginPage from './pages/auth/LoginPage';
 import RegisterPage from './pages/auth/RegisterPage';
@@ -124,14 +127,20 @@ function App() {
               <Route path="/register" element={<RegisterPage toggleLanguage={toggleLanguage} language={language} />} />
               <Route path="/forgot-password" element={<ForgotPasswordPage toggleLanguage={toggleLanguage} language={language} />} />
               
+              {/* Default route - Public Home Page */}
+              <Route path="/" element={<HomePage />} />
+              
               {/* Public Home Page */}
               <Route path="/home" element={<HomePage />} />
               
               {/* Vegetation Indices - can be public for demo */}
               <Route path="/vegetation-indices" element={<VegetationIndicesPage />} />
 
+              {/* Commodity Prices - can be public for demo */}
+              <Route path="/commodity-prices" element={<CommodityPricesPage />} />
+
               {/* Protected routes - with Layout wrapper */}
-              <Route path="/" element={
+              <Route path="/app" element={
                 <ProtectedRoute>
                   <Layout language={language} toggleLanguage={toggleLanguage}>
                     <DashboardPage />
@@ -140,7 +149,7 @@ function App() {
               } />
 
               {/* Dashboard */}
-              <Route path="/dashboard" element={
+              <Route path="/app/dashboard" element={
                 <ProtectedRoute>
                   <Layout language={language} toggleLanguage={toggleLanguage}>
                     <DashboardPage />
@@ -149,7 +158,7 @@ function App() {
               } />
 
               {/* Profile */}
-              <Route path="/profile" element={
+              <Route path="/app/profile" element={
                 <ProtectedRoute>
                   <Layout language={language} toggleLanguage={toggleLanguage}>
                     <ProfilePage />
@@ -158,28 +167,28 @@ function App() {
               } />
 
               {/* Fields */}
-              <Route path="/fields" element={
+              <Route path="/app/fields" element={
                 <ProtectedRoute>
                   <Layout language={language} toggleLanguage={toggleLanguage}>
                     <FieldsListPage />
                   </Layout>
                 </ProtectedRoute>
               } />
-              <Route path="/fields/:id" element={
+              <Route path="/app/fields/:id" element={
                 <ProtectedRoute>
                   <Layout language={language} toggleLanguage={toggleLanguage}>
                     <FieldDetailPage />
                   </Layout>
                 </ProtectedRoute>
               } />
-              <Route path="/fields/add" element={
+              <Route path="/app/fields/add" element={
                 <ProtectedRoute>
                   <Layout language={language} toggleLanguage={toggleLanguage}>
                     <AddFieldPage />
                   </Layout>
                 </ProtectedRoute>
               } />
-              <Route path="/fields/:id/edit" element={
+              <Route path="/app/fields/:id/edit" element={
                 <ProtectedRoute>
                   <Layout language={language} toggleLanguage={toggleLanguage}>
                     <EditFieldPage />
@@ -188,73 +197,82 @@ function App() {
               } />
 
               {/* Monitoring */}
-              <Route path="/monitoring" element={
+              <Route path="/app/monitoring" element={
                 <ProtectedRoute>
                   <Layout language={language} toggleLanguage={toggleLanguage}>
                     <MonitoringOverviewPage />
                   </Layout>
                 </ProtectedRoute>
               } />
-              <Route path="/monitoring/satellite" element={
+              <Route path="/app/monitoring/satellite" element={
                 <ProtectedRoute>
                   <Layout language={language} toggleLanguage={toggleLanguage}>
                     <SatelliteImageryPage />
                   </Layout>
                 </ProtectedRoute>
               } />
-              <Route path="/monitoring/weather" element={
+              <Route path="/app/monitoring/weather" element={
                 <ProtectedRoute>
                   <Layout language={language} toggleLanguage={toggleLanguage}>
                     <WeatherEnvironmentPage />
                   </Layout>
                 </ProtectedRoute>
               } />
-              <Route path="/monitoring/vegetation-indices" element={
+              <Route path="/app/monitoring/vegetation-indices" element={
                 <ProtectedRoute>
                   <Layout language={language} toggleLanguage={toggleLanguage}>
                     <VegetationIndicesPage />
                   </Layout>
                 </ProtectedRoute>
               } />
-              <Route path="/monitoring/soil-water" element={
+              <Route path="/app/monitoring/soil-water" element={
                 <ProtectedRoute>
                   <Layout language={language} toggleLanguage={toggleLanguage}>
                     <SoilWaterPage />
                   </Layout>
                 </ProtectedRoute>
               } />
-              <Route path="/monitoring/crop-health" element={
+              <Route path="/app/monitoring/crop-health" element={
                 <ProtectedRoute>
                   <Layout language={language} toggleLanguage={toggleLanguage}>
                     <CropHealthPage />
                   </Layout>
                 </ProtectedRoute>
               } />
-              <Route path="/monitoring/risk-analysis" element={
+              <Route path="/app/monitoring/risk-analysis" element={
                 <ProtectedRoute>
                   <Layout language={language} toggleLanguage={toggleLanguage}>
                     <RiskAnalysisPage />
                   </Layout>
                 </ProtectedRoute>
               } />
-              <Route path="/monitoring/reports" element={
+              <Route path="/app/monitoring/reports" element={
                 <ProtectedRoute>
                   <Layout language={language} toggleLanguage={toggleLanguage}>
                     <MonitoringReportsPage />
                   </Layout>
                 </ProtectedRoute>
               } />
-              <Route path="/monitoring/history" element={
+              <Route path="/app/monitoring/history" element={
                 <ProtectedRoute>
                   <Layout language={language} toggleLanguage={toggleLanguage}>
                     <MonitoringHistoryPage />
                   </Layout>
                 </ProtectedRoute>
               } />
-              <Route path="/monitoring/indicators" element={
+              <Route path="/app/monitoring/indicators" element={
                 <ProtectedRoute>
                   <Layout language={language} toggleLanguage={toggleLanguage}>
                     <IndicatorsPage />
+                  </Layout>
+                </ProtectedRoute>
+              } />
+
+              {/* Commodity Prices - Protected version */}
+              <Route path="/app/commodity-prices" element={
+                <ProtectedRoute>
+                  <Layout language={language} toggleLanguage={toggleLanguage}>
+                    <CommodityPricesPage />
                   </Layout>
                 </ProtectedRoute>
               } />
